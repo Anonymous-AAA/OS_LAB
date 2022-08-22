@@ -1,0 +1,45 @@
+0
+2056
+0
+0
+0
+0
+0
+0
+MOV R1, 1 
+
+MOV R0, 20
+
+PUSH R0 // saving register context
+PUSH R1
+
+MOV R0,5 // pushing system call number and arguments
+MOV R2,-2
+PUSH R0
+PUSH R2
+PUSH R1
+PUSH R0
+
+PUSH R0 //  pushing space for return value
+INT 7
+
+POP R1 // poping out return value and ignore
+
+POP R1 // pop out arguments and system call number and ignore
+POP R1
+POP R1
+POP R1
+
+POP R1 //  restoring the register context
+POP R0
+
+ADD R1,1
+GE  R0,R1
+JNZ R0,2058 // Jump to line 11
+
+
+INT 10 //exit system call
+
+
+
+
