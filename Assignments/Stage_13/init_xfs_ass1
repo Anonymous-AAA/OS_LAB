@@ -1,0 +1,3 @@
+load --init /home/anonymous/OS_lab/Assignments/Stage_13/odd_num.xsm
+load --exec /home/anonymous/OS_lab/Assignments/Stage_13/even_num.xsm
+dump --inodeusertable

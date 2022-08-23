@@ -1,0 +1,6 @@
+1.Modules in eXpOS are used to perform certain logical tasks, which are performed frequently.
+2.These modules run in kernel mode and are invoked only from the kernel mode. A user program can never invoke a module directly. Modules can be invoked from interrupt routines, other modules or the OS startup code.
+3.As modules execute in kernel mode, the kernel stack of the currently scheduled process is used as the caller-stack for module invocation.
+
+//Read from site
+
