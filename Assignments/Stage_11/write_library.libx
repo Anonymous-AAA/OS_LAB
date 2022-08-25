@@ -50,7 +50,7 @@ POP BP              //Restoring bp
 
 MOV R0, SP
 DCR R0
-MOV [R0],R6        //Storing the return value
+MOV [R0],R6        //Setting the return value
 
 
 BRKP

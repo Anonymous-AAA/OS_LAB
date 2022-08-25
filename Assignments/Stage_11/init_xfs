@@ -1,2 +1,3 @@
 load --init /home/anonymous/OS_lab/Assignments/Stage_11/numbers.xsm
 load --library /home/anonymous/OS_lab/myexpos/expl/library.lib
+load --os  /home/anonymous/OS_lab/Assignments/Stage_10/os_startup_st10.xsm
