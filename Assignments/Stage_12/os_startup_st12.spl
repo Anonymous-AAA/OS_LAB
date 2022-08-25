@@ -1,5 +1,5 @@
 
-//Load the idle code from disk to memory
+//Load the idle code from disk to memory (mem,disk)
 loadi(69,11);
 loadi(70,12);
 
