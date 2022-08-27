@@ -4,3 +4,6 @@
 
 //Read from site
 
+1.Each SPL System Call Handler/Interrupt Handler/Module is designed to occupy a maximum of two pages of continuous memory in the XSM machine.
+2.Protected Mode refers to user mode.
+3.There are no parameters or function code (as there are no functions) to be passed in case of boot module.
