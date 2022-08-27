@@ -1,4 +1,4 @@
-breakpoint;  //for assignment 3
+breakpoint;  // for assignment 2
 
 //Save the current value of User SP into the corresponding Process Table entry
 [PROCESS_TABLE + ( [SYSTEM_STATUS_TABLE + 1] * 16) + 13] = SP;
@@ -27,10 +27,14 @@ process_table_entry = PROCESS_TABLE + currentPID * 16;
 [process_table_entry + 4] = READY;
 
 
-alias newPID R2;                           //As we have only two processes to schedule, the scheduling algorithm we are going to use will just toggle between the two processes.
+alias newPID R2;                           //We have three processes to schedule , the new process will be the next process to execute
 if(currentPID == 0) then
 	newPID = 1;
-else
+endif;
+if(currentPID == 1) then
+	newPID = 2;
+endif;
+if(currentPID == 2) then
 	newPID = 0;
 endif;
 
@@ -50,7 +54,7 @@ PTLR = [new_process_table + 15];
 if([new_process_table + 4] == CREATED) then   //If the process is in created state it has no user context to Restore ,so there is no need to Restore.
 	[new_process_table + 4] = RUNNING;
 	SP = [new_process_table + 13];
-	breakpoint;  //for assignment 3
+	breakpoint;  // for assignment 2
 	ireturn;
 endif;
 
@@ -67,8 +71,8 @@ restore;
 SP = [PROCESS_TABLE + ( [SYSTEM_STATUS_TABLE + 1] * 16) + 13];   //Do not use new_process_table here as its values will get  lost after Restore
 
 
-breakpoint;  //for assignment 3
 
+breakpoint;  // for assignment 2
 
 //switch to user mode
 ireturn;

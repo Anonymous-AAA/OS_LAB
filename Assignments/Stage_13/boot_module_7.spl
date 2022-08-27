@@ -72,7 +72,7 @@ PTBR = PAGE_TABLE_BASE+20;    //For INIT Process
 [PTBR+18] = 77;
 [PTBR+19] = "0110";
 
-PTBR=PAGE_TABLE_BASE;  //Setting back PTBR for IDLE (is there a better way)
+// PTBR=PAGE_TABLE_BASE;  //Setting back PTBR for IDLE (not necessary ig, so commented)
 
 
 // Process Table entries For INIT Process
