@@ -18,7 +18,7 @@ pid=1;
 //Find out whether all processes except idle are terminated. In that case, halt the system. Otherwise invoke the scheduler
 
 while(pid<=15)do
-    if([PROCESS_TABLE + currentPID * 16+4]!=TERMINATED) then
+    if([PROCESS_TABLE + pid * 16+4]!=TERMINATED) then  //error I made here: put currentPID instead of pid
     call MOD_5;
     endif;
     pid=pid+1;
