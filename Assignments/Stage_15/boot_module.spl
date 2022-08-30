@@ -1,5 +1,15 @@
 
-//Load Module 5 to memory(Scheduler Module)
+//Load Module 0 to memory (Resource manager module)
+loadi(40,53);
+loadi(41,54);
+
+
+//Load Module 4 to memory (Device Manager Module)
+loadi(48,61);
+loadi(49,62);
+
+
+//Load Module 5 to memory (Scheduler Module)
 loadi(50,63);
 loadi(51,64);
 
@@ -166,6 +176,10 @@ while(pid<=15) do
 pid=pid+1;
 endwhile;
 
+
+
+//Initialize the STATUS field in the Terminal Status table as 0.
+[TERMINAL_STATUS_TABLE]=0;
 
 
 

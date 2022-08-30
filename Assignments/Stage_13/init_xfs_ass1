@@ -8,3 +8,4 @@ load --int=timer /home/anonymous/OS_lab/Assignments/Stage_13/timer_ass1.xsm
 load --library /home/anonymous/OS_lab/myexpos/expl/library.lib
 load --module 7 /home/anonymous/OS_lab/Assignments/Stage_13/boot_module_7_ass1.xsm
 load --int=10  /home/anonymous/OS_lab/myexpos/spl/spl_progs/halt_prog.xsm
+load --int=7 /home/anonymous/OS_lab/Assignments/Stage_10/sample_int7.xsm
