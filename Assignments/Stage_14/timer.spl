@@ -28,7 +28,7 @@ endwhile;
 
 
 
-call MOD_5; // invoke  context switch module
+call MOD_5; // invoke  context switch module (Scheduler module)
 
 
 
