@@ -57,11 +57,11 @@ When Timer Interrupt occurs the machine checks the corresponding entry in the in
 - Else
     - Set the state to 'RUNNING'
     - Pop BP
-    - Return to Timer
+    - Return to Timer (of the Current Process context, this process will be different from the process in which the timer interrupt occuredd)
 
 
 
-8. Control Returns Back to Timer
+8. Timer Interrupt
 - 
 
 
