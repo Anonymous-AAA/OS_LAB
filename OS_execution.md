@@ -52,17 +52,32 @@ When Timer Interrupt occurs the machine checks the corresponding entry in the in
     - Set the state to 'RUNNING'
     - Set SP to UPTR in Process Table entry
     - Set Mode flag field to 0 (Indication the process is running in user mode)
-    - Switch to user mode
+    - Switch to user mode (goto 9.)
 
 - Else
     - Set the state to 'RUNNING'
     - Pop BP
-    - Return to Timer (of the Current Process context, this process will be different from the process in which the timer interrupt occuredd)
+    - Return to Timer (of the Current Process context, this process will be different from the process in which the timer interrupt occured)
 
 
 
 8. Timer Interrupt
-- 
+-  Restore the user context from the kernel stack
+- Set SP to user SP saved in process table
+- Set Mode flag entry of the current process in process table to 0.
+- Switch to user mode. (IRET)
+
+
+9. The User Program execution continues and when a timer interrupt occurs again it goes to 6.
+    - After the User Program completes execution it calls the exit system call (INT 10)
+
+
+10. INT 10 (Exit System Call)
+    - Change the state of the invoking process to TERMINATED
+    - Find out whether all processes except idle are terminated. In that case, halt the system. Otherwise go to 7 to invoke the scheduler(Module 5).
+
+
+
 
 
 
