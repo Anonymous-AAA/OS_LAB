@@ -1,3 +1,5 @@
+//Device Manager module
+
 //Function number and current PID are stored in registers R1 and R2.
 alias functionNum R1;
 alias currentPID R2;
@@ -8,6 +10,8 @@ return;
 endif;
 
 alias word R3; //Word is stored in R3
+
+
 
 //Calling Acquire Terminal
 multipush(R1,R2,R3);       //Saving Register Context before module Call

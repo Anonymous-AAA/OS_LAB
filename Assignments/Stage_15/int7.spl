@@ -1,3 +1,5 @@
+//Write System Call
+
 //Set the MODE FLAG field in the process table to the system call number which is 5 for write system call
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 5;
 

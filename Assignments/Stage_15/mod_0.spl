@@ -1,3 +1,5 @@
+//Resource Manager Module
+
 //Function number is present in R1 and PID passed as an argument is stored in R2
 alias functionNum R1;
 alias currentPID R2;
@@ -17,6 +19,7 @@ endwhile;
 [TERMINAL_STATUS_TABLE]=1;       //Change the STATUS field to 1 in terminal status table
 [TERMINAL_STATUS_TABLE+1]=currentPID ;   //Change PID to current PID in terminal status table
 
+breakpoint;   //Stage 15 assignment 1
 
 return;
 
@@ -50,6 +53,8 @@ pids=pids+1;
 endwhile;
 
 R0=0;   //Save 0 in register R0 indicating success.
+
+breakpoint;   //Stage 15 assignment 1
 
 return;
 
