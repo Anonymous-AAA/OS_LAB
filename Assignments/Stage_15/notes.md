@@ -20,3 +20,5 @@
 What does the content in the bracket mean?
 
 2. Doubt in Q1.Conditions for the deadlock to occur , the preemption contidion is also valid ryt?
+
+3. Is the output of Stage 15 as expected
