@@ -18,3 +18,5 @@
 1.Pop the registers pushed before. (Note that this code will be executed only after the scheduler schedules the process again, which in turn occurs only after the terminal was released by the holding process by invoking the release terminal function.)
 
 What does the content in the bracket mean?
+
+2. Doubt in Q1.Conditions for the deadlock to occur , the preemption contidion is also valid ryt?
