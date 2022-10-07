@@ -16,5 +16,13 @@
 
 7. Interrupts are disabled when machine runs in the privileged mode so that there are no race conditions.
 
+## Expl
+1. All global variables, arrays and functions in a program must be declared as global.
+
+2. The main function should return 0
+
+3. Return statement cannot be inside an if or while statement
+
+
 ## Doubts
 1. Does expl converts datatypes implicitly while accepting values from terminal
