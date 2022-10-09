@@ -22,7 +22,7 @@ physicalPageNum = [PTBR + 2 * ((userSP - 4)/ 512)];
 offset = (userSP - 4) % 512;
 fileNamePhysicalAddr = (physicalPageNum * 512) + offset;
 alias fileName R4;
-fileName=[fileDescPhysicalAddr];
+fileName=[fileNamePhysicalAddr];
 
 //Search the memory copy of the inode table for the file
 alias inodeIndex R5;
@@ -49,7 +49,7 @@ endif;
 
 // Call exit process function from the Process Manager module
 multipush(R0,R1,R2,R3,R4,R5,R6);  //Saving register Context
-R1=3   //Function number of exit process
+R1=3;  //Function number of exit process
 R2=[SYSTEM_STATUS_TABLE + 1];           //PID of the current process
 call MOD_1;                             //Calling Process Manager Module
 
@@ -139,14 +139,14 @@ while(loop<code_num) do
     call MOD_2;
     R10=R0;            //For Not Losing Value (Is there a better way?)
     multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8,R9);   //Restoring Context
-    [PTBR+8+(loop*2)]=R10
+    [PTBR+8+(loop*2)]=R10;
     [PTBR+9+(loop*2)]="0100";
     loop=loop+1;
 endwhile;
 
 //Empty Pages in code section
 while(loop<4) do
-    [PTBR+8+(loop*2)]=-1
+    [PTBR+8+(loop*2)]=-1;
     [PTBR+9+(loop*2)]="0000";
     loop=loop+1;
 endwhile;

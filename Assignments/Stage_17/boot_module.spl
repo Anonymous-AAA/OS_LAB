@@ -1,5 +1,24 @@
 //loadi(mem,disk)
 
+//Load INT 9(Exec system Call)
+loadi(20,33);
+loadi(21,34);
+
+//Load module 1 (Process Manager)
+loadi(42,55);
+loadi(43,56);
+
+//Load module 2 (Memory Manager)
+loadi(44,57);
+loadi(45,58);
+
+//Load inode user table
+loadi(59,3);
+loadi(60,4);
+
+
+
+
 //Load Console Interrupt handler
 loadi(8,21);
 loadi(9,22);
@@ -128,20 +147,46 @@ PTBR = PAGE_TABLE_BASE+20;    //For INIT Process
 
 
 //Setting State field of all other remaining processes in process table entry to TERMINATED
-// Maximum number of Processes in eXpos is 16 and number of attributes in a single entry is  PT_ENTRY_SIZE which is 16
+// Maximum number of Processes in eXpos is 16 and number of attributes in a single entry is also PT_ENTRY_SIZE which is 16
 alias pid R0;
 
 pid=2;
 
 while(pid<=15) do
-[PROCESS_TABLE+PT_ENTRY_SIZE*pid+4]=TERMINATED;
-pid=pid+1;
+    [PROCESS_TABLE+PT_ENTRY_SIZE*pid+4]=TERMINATED;
+    pid=pid+1;
 endwhile;
 
 
 
 //Initialize the STATUS field in the Terminal Status table as 0.
 [TERMINAL_STATUS_TABLE]=0;
+
+
+//Initialize the memory free list with value 1 for pages used and 0 for free pages.
+alias loop R0;
+loop=0;
+
+while(loop<83) do
+    [MEMORY_FREE_LIST+loop]=1;
+    loop=loop+1;
+endwhile;
+
+while(loop<MAX_MEM_PAGE) do
+    [MEMORY_FREE_LIST+loop]=0;
+    loop=loop+1;
+endwhile;
+
+
+//Initialize the field WAIT_MEM_COUNT to 0
+[SYSTEM_STATUS_TABLE+3]=0;
+//Initialize MEM_FREE_COUNT to number of free pages.
+[SYSTEM_STATUS_TABLE+2]=45;
+
+
+
+
+
 
 
 
