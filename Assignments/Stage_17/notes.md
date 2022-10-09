@@ -18,3 +18,9 @@
 
 2. Why didnt we make changes in process table entry of user stack in int9?
 (Ig it is used only when the process invokes a system call and then it takes care of it)
+
+3. Is multipush() and multipop() necessary everywhere in module to module call?
+(Ig its not required , but its better to follow convention).
+
+4. How to check whether a page table entry is valid ? (To see what I did,go to mod_1.spl).
+
