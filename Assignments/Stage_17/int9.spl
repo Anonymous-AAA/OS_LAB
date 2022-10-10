@@ -32,6 +32,8 @@ while(inodeIndex<MAX_FILE_NUM && [INODE_TABLE+(16*inodeIndex)+1]!=fileName)do
     inodeIndex=inodeIndex+1;
 endwhile;
 
+
+
 //If the file is not present or file is not in XEXE format Return to user mode with Return value -1 indicating failure (after setting up MODE FLAG and the user stack).
 if(inodeIndex>MAX_FILE_NUM || [INODE_TABLE+(16*inodeIndex)]!=EXEC) then
 
@@ -45,6 +47,7 @@ if(inodeIndex>MAX_FILE_NUM || [INODE_TABLE+(16*inodeIndex)]!=EXEC) then
     SP=userSP;
     ireturn;
 endif;
+
 
 
 // Call exit process function from the Process Manager module
@@ -83,10 +86,17 @@ SP=(userAreaPage*512)-1;
 [PTBR+2] = 64;
 [PTBR+3] = "0100";
 
+
+
+
+
+
 //Calling Memory Manager Module
 multipush(R0,R1,R2,R3,R4,R5,R6,R7);  //Saving register Context
 R1=1;    //Function number of Get Free Page in Memory Manager Module
 call MOD_2;
+
+
 
 //Allocating first Heap Page (Return Value is in R0)
 [PTBR+4]=R0;
@@ -124,9 +134,13 @@ code_num=0;
 alias loop R9;
 loop=0;
 
+
+
 while(loop<4 && [INODE_TABLE+(16*inodeIndex)+8+loop]!=-1) do
     code_num=code_num+1;
+    loop=loop+1;
 endwhile;
+
 
 
 //Allocating Pages for Code
@@ -170,6 +184,7 @@ SP=8*512;
 
 //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+
 
 //Return to user mode
 ireturn;

@@ -1,4 +1,4 @@
-load --init /home/anonymous/OS_lab/Assignments/Stage_16/gcd.xsm
+load --init /home/anonymous/OS_lab/Assignments/Stage_17/execute.xsm
 load --os   /home/anonymous/OS_lab/Assignments/Stage_13/os_startup_st13.xsm
 load --module 7  /home/anonymous/OS_lab/Assignments/Stage_17/boot_module.xsm
 load --int=10  /home/anonymous/OS_lab/Assignments/Stage_14/int_10.xsm
@@ -14,3 +14,5 @@ load --int=6 /home/anonymous/OS_lab/Assignments/Stage_16/int6.xsm
 load --int=9  /home/anonymous/OS_lab/Assignments/Stage_17/int9.xsm
 load --module 1 /home/anonymous/OS_lab/Assignments/Stage_17/mod_1.xsm
 load --module 2 /home/anonymous/OS_lab/Assignments/Stage_17/mod_2.xsm
+rm odd.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_17/odd.xsm

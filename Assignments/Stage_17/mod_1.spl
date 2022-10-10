@@ -4,6 +4,7 @@
 alias functionNum R1;
 
 
+
 //Free User Area Page Function
 if(functionNum==2) then
     alias PID R2;
@@ -62,6 +63,8 @@ if(functionNum==4) then
     //For each valid entry in the page table, release the page by invoking the Release Page function and invalidate the entry.
     alias loop R3;
     loop=0;
+   
+
 
     while(loop<(PTLR-2)) do
         //Checking whether the page table entry is valid (Is there a better way to Do this?)
