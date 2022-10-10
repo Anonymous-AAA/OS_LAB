@@ -39,6 +39,7 @@ if(functionNum==1) then
     //Set the entry of the page in memory free list as 1
     [MEMORY_FREE_LIST+free]=1;
 
+    breakpoint; //Assignment 2
 
     return;
 endif;
@@ -70,6 +71,8 @@ if(functionNum==2) then
 
         loop=loop+1;
     endwhile;
+
+    breakpoint;     //Assignment 2
 
     return;
 
