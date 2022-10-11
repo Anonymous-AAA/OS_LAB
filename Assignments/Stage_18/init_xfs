@@ -13,7 +13,7 @@ load --int=console /home/anonymous/OS_lab/Assignments/Stage_17/console_int.xsm
 load --int=6 /home/anonymous/OS_lab/Assignments/Stage_16/int6.xsm
 load --int=9  /home/anonymous/OS_lab/Assignments/Stage_18/int9.xsm
 load --module 1 /home/anonymous/OS_lab/Assignments/Stage_17/mod_1.xsm
-load --module 2 /home/anonymous/OS_lab/Assignments/Stage_17/mod_2.xsm
+load --module 2 /home/anonymous/OS_lab/Assignments/Stage_18/mod_2.xsm
 load --int=disk /home/anonymous/OS_lab/Assignments/Stage_18/disk_int.xsm
 rm odd.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_17/odd.xsm

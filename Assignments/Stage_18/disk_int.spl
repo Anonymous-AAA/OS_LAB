@@ -1,5 +1,7 @@
 //Disk Interrupt Handler
 
+breakpoint; //Assignment 1
+
 //Store the SP value in the UPTR field in the process table entry of the currently running process.
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=SP;      
 
@@ -30,6 +32,8 @@ restore;
 
 //Change to user stack
 SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];  
+
+breakpoint;  //Assignment 1
 
 //Change to user mode
 ireturn;
