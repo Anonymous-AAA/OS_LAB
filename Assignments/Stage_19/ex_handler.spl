@@ -1,5 +1,7 @@
 //Exception Handler
 
+breakpoint; //Assignment 2
+
 //Set the MODE FLAG field in the process table to -1 to indicate exception handler
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = -1;
 
@@ -17,10 +19,11 @@ SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;
 //Save the user context to the kernel stack
 backup;
 
-//push EIP onto the stack
+//push EIP onto the stack 
+//The execption handler may block for a disk Read and invoke the scheduler during it's course of execution. The value of the EIP register must be stored before scheduling other processes as the current value will be overwritten by the machine if an exception occurs in another application that is scheduled in this way.
 multipush(EIP);
 
-if(EC !=0 || userSP==(PTLR*512)-1) then     //Exception is not due to Page Fault or User Stack is full
+if(EC !=0 || userSP==(PTLR*512)-1) then     //Exception is not due to Page Fault or User Stack is full(Because the Return address can't be pushed onto the stack)
     
     //Print meaningful error messages
     

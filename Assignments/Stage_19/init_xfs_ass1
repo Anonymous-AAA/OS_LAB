@@ -15,6 +15,6 @@ load --int=9  /home/anonymous/OS_lab/Assignments/Stage_19/int9.xsm
 load --module 1 /home/anonymous/OS_lab/Assignments/Stage_19/mod_1.xsm
 load --module 2 /home/anonymous/OS_lab/Assignments/Stage_19/mod_2.xsm
 load --int=disk /home/anonymous/OS_lab/Assignments/Stage_19/disk_int.xsm
-rm odd.xsm
-load --exec  /home/anonymous/OS_lab/Assignments/Stage_17/odd.xsm
+rm ldlist.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_19/ldlist.xsm
 load --exhandler  /home/anonymous/OS_lab/Assignments/Stage_19/ex_handler.xsm

@@ -132,6 +132,8 @@ if(functionNum==5) then
     //Set the Return value to the new Memory page to which the code is loaded
     R0=freePage;
 
+    breakpoint; //Assignment 2
+
     return;
 
 
