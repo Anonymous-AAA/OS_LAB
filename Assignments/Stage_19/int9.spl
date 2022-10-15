@@ -171,7 +171,7 @@ endwhile;
 //Initialize the disk map table of the process
 loop=0;
 
-alias R10 pid;
+alias pid R10;
 pid=[SYSTEM_STATUS_TABLE+1];
 
 //Initializing the code entries of disk map table
