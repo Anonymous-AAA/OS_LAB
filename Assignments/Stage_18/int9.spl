@@ -167,8 +167,8 @@ loop=0;
 
 while(loop<code_num) do
     multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8,R9);  //Saving register Context
-    R1=1;
-    call MOD_2;
+    R1=1;                //Get free Page function number
+    call MOD_2;         //Calling memory manager module
     R10=R0;            //For Not Losing Value (Is there a better way?)
     multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8,R9);   //Restoring Context
     [PTBR+8+(loop*2)]=R10;
