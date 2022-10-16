@@ -38,6 +38,36 @@ endif;
 
 if([PTBR+4]==-1 || [PTBR+6]==-1) then   //Checking whether heap pages are allocated for parent process
 
+    //For First Heap Page
+    //Invoke get free page function of memory manager module
+    multipush(R1);
+    R1=1;       //Get free Page Function number
+    call MOD_2;     //Calling memory manager module
+    multipop(R1);
+
+    alias freePage R0;      //R0 contains the freePage Number
+
+    //Update the Page Table entry for the first Heap Page
+    [PTBR+4]=freePage;
+    [PTBR+5]="1110";    //Sets reference,valid and write bits to 1 (Heap Pages are allowed to be written)
+
+
+    //For Second Heap Page
+    //Invoke get free page function of memory manager module
+    multipush(R1);
+    R1=1;       //Get free Page Function number
+    call MOD_2;     //Calling memory manager module
+    multipop(R1);
+
+    //Update the Page Table entry for the second Heap Page
+    [PTBR+6]=freePage;
+    [PTBR+7]="1110";    //Sets reference,valid and write bits to 1 (Heap Pages are allowed to be written)
+
+endif;
+
+
+
+
 
 
 
