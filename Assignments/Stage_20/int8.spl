@@ -1,0 +1,45 @@
+// Fork System Call (INT 8) (System Call Number 8)
+
+//Set the MODE FLAG field in the process table to the system call number which is 8 for fork system call
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 8;
+
+//Save the value of SP in the user SP field of Process Table entry of the process.
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=SP;
+
+//Set the value of SP to beginning of the kernel stack.
+SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;
+
+
+//Find a free process table entry by invoking Get PCB entry (function 1) in process manager module(MOD 1)
+
+//No context to save as registers are not used
+R1=1;       //Function number 1
+//No arguments
+call MOD_1;     //Memory manager module
+
+alias pid R1;  
+
+pid=R0;  //R0 contains the process table entry (pid) which is free
+
+if(pid==-1) then    //No free entry in Process table, so Return indicating failure
+
+     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
+    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+
+    //Set -1 as Return Value in the user stack. (Address Translation required)
+    [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = -1;
+
+    //Switch to user stack
+    SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];
+
+    ireturn;
+endif;
+
+
+if([PTBR+4]==-1 || [PTBR+6]==-1) then   //Checking whether heap pages are allocated for parent process
+
+
+
+
+
+
