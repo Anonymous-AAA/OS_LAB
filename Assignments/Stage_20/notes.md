@@ -17,7 +17,20 @@
 
 9. Since the Parent and child processes can concurrently access/modify the heap pages, they need support from the OS to synchronize access to the shared heap memory. eXpOS provides support for such synchronization through systems calls for semaphores and signal handling. 
 
+10. The TICK field keep track of how long a process has been running in memory and should be initialized to 0, when a process is created.
+
+11. PID, PTBR and PTLR fields in process table of child process during fork are initialized in  Get Pcb Entry function
+
+12. It is not required to initialize INPUT BUFFER in process table of child process during fork
+
+
+13. The eXpOS design guarentees that the stack pages and the user area page of a process will not be swapped at the time when it invokes the fork system call.
+
 # Doubt
 
 1. The contents of the parent's kernel stack are not copied to the child, and the kernel stack of the child is set to empty (that is, KPTR field in the process table entry of the child is set to 0.). Why?
+
+2.Store the value in the BP register on top of the kernel stack of child process.Why?
+    - When the child is scheduled for the first time , it is in CREATED state , so how does the scheduler know there is user context to be restored? (What about BP?)
+    -There is also doubt whether should I update KPTR
 
