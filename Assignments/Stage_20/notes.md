@@ -26,6 +26,11 @@
 
 13. The eXpOS design guarentees that the stack pages and the user area page of a process will not be swapped at the time when it invokes the fork system call.
 
+# Very Very important 
+- When executing init_xfs the machine won't halt after program execution as scheduler schedules the idle process
+
+
+
 # Doubt
 
 1. The contents of the parent's kernel stack are not copied to the child, and the kernel stack of the child is set to empty (that is, KPTR field in the process table entry of the child is set to 0.). Why?
