@@ -24,6 +24,7 @@ call MOD_1;     //Memory manager module
 alias pid R1; 
 
 
+
 pid=R0;  //R0 contains the process table entry (pid) which is free
 
 if(pid==-1) then    //No free entry in Process table, so Return indicating failure
@@ -39,6 +40,8 @@ if(pid==-1) then    //No free entry in Process table, so Return indicating failu
 
     ireturn;
 endif;
+
+
 
 
 if([PTBR+4]==-1 || [PTBR+6]==-1) then   //Checking whether heap pages are allocated for parent process
@@ -160,10 +163,12 @@ childPerProcessTable=((userAreaPage+1)*512)-16;
 parentPerProcessTable=((parentUserAreaPage+1)*512)-16;
 
 
+
 while(loop<16) do
     [childPerProcessTable+loop]=[parentPerProcessTable+loop];
     loop=loop+1;
 endwhile;
+
 
 
 //Copy the per-process disk map table of the parent to the child.
@@ -175,6 +180,7 @@ while(loop<10) do
 endwhile;
 
 
+
 //Initialize the page table of the child process.
 
 //Copy heap,code and Library pages from parent to child
@@ -184,6 +190,8 @@ childPTBR=[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+14];
 //Parent ptbr is in PTBR register
 
 loop=0;
+
+
 
 while(loop<8) do                       //First 8 pages are Library,heap and code
     [childPTBR+(loop*2)]=[PTBR+(loop*2)];       //Copying Physical Page number
@@ -204,6 +212,8 @@ endwhile;
 
 //Copy contents of userStack from parent to child
 loop=0;
+
+
 
 while(loop<1024) do                         //2 pages=1024 words
     [firstStack+loop]=[[PTBR+16]+loop];     //[PTBR+16] contains the physical address of starting point of user stack of parent

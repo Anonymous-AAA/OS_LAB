@@ -1,8 +1,8 @@
 //loadi(mem,disk)
 
 //Load INT 8 (Fork)
-load(18,31);
-load(19,32);
+loadi(18,31);
+loadi(19,32);
 
 //Load Disk Free List
 loadi(61,2);

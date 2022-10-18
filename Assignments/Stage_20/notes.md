@@ -39,3 +39,5 @@
     - When the child is scheduled for the first time , it is in CREATED state , so how does the scheduler know there is user context to be restored? (What about BP?)
     -There is also doubt whether should I update KPTR
 
+# Mistake I made
+1. Used load instead of loadi in boot module
