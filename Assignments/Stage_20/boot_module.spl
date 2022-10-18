@@ -85,8 +85,8 @@ loadi(23,36);
 
 //Load exception handler routine from disk to memory
 
-loadi(2, 15);
-loadi(3, 16);
+loadi(2,15);
+loadi(3,16);
 
 
 
