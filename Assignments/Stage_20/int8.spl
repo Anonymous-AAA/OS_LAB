@@ -147,8 +147,8 @@ userAreaPage=R0;
 
 
 //Copying Per Process Resource Table in User Area Page from parent to child
-alias ParentPerProcessTable R5;
-alias ChildPerProcessTable R6;
+alias parentPerProcessTable R5;
+alias childPerProcessTable R6;
 alias loop R7;
 alias parentUserAreaPage R8;
 
@@ -218,7 +218,7 @@ endwhile;
 [PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+12]=1;
 
 
-alias R11 childUserSP;
+alias childUserSP R11;
 
 childUserSP=[PROCESS_TABLE +(pid* 16)+ 13];
 
@@ -228,7 +228,7 @@ childUserSP=[PROCESS_TABLE +(pid* 16)+ 13];
 
 
 //Set zero as Return Value in the user stack of Parent process. (Address Translation required)
-[([childPTBR + 2 * ((childuserSP - 1) / 512)] * 512) + ((childuserSP - 1) % 512)] = 0;
+[([childPTBR + 2 * ((childUserSP - 1) / 512)] * 512) + ((childUserSP - 1) % 512)] = 0;
 
 
 //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.

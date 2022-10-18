@@ -163,7 +163,7 @@ if(functionNum==1) then
             [PROCESS_TABLE+(index*PT_ENTRY_SIZE)+1]=index;
 
             //set the state to allocated
-            [PROCESS_TABLE+(index*PT_ENTRY_SIZE)+4]==ALLOCATED;
+            [PROCESS_TABLE+(index*PT_ENTRY_SIZE)+4]=ALLOCATED;
 
             //Set ptbr field
             [PROCESS_TABLE+(index*PT_ENTRY_SIZE)+14]=PAGE_TABLE_BASE+(20*index);
