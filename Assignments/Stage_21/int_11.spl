@@ -47,7 +47,8 @@ if(sysCall==13) then
 
 
     //Change the state of the current process from RUNNING to the tuple (WAIT_PROCESS, argument PID) in the process table
-    [PROCESS_TABLE+([SYSTEM_STATUS_TABLE+1]*PT_ENTRY_SIZE)+4]=(WAIT_PROCESS,pid);
+    [PROCESS_TABLE+([SYSTEM_STATUS_TABLE+1]*PT_ENTRY_SIZE)+4]=WAIT_PROCESS;
+    [PROCESS_TABLE+([SYSTEM_STATUS_TABLE+1]*PT_ENTRY_SIZE)+5]=pid;
 
     //Invoke the Scheduler
     multipush(R1,R2,R3);
@@ -81,7 +82,7 @@ if(sysCall==14) then
     loop=0;
 
     while(loop<MAX_PROC_NUM) do
-        if([PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]==(WAIT_PROCESS,[SYSTEM_STATUS_TABLE+1])) then
+        if([PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]==WAIT_PROCESS && [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]==[SYSTEM_STATUS_TABLE+1]) then
             [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]=READY;
         endif;
         loop=loop+1;

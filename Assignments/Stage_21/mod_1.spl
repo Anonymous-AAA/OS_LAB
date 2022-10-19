@@ -54,7 +54,7 @@ if(functionNum==3) then
         loop=0;
 
         while(loop<MAX_PROC_NUM) do
-            if([PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]==(WAIT_PROCESS,PID)) then
+            if([PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]==WAIT_PROCESS && [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]==PID) then
             [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]=READY;
             endif;
 
