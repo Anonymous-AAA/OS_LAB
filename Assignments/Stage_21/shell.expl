@@ -5,7 +5,7 @@ int main(){
 
     decl
         str name;
-        int temp;
+        int temp,pid;
     enddecl
 
     begin
@@ -14,9 +14,18 @@ int main(){
         if(name=="shutdown"|| name=="Shutdown" ) then
             temp=exposcall("Shutdown");
         else
-            temp=exposcall("Fork");
-            if(temp!=0) then
+            pid=exposcall("Fork");
+            if(pid!=0) then
+                temp=exposcall("Wait",pid);
+            else
+                temp=exposcall("Exec",name);
+                if(temp==-1) then
 
+            endif;
+
+
+
+        endif;
 
 
 
