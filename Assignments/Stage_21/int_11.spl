@@ -108,6 +108,7 @@ endif;
 //Getpid syscall
 if(sysCall==11) then
 
+   
     //Set pid as Return Value in the user stack. (Address Translation required)
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = [SYSTEM_STATUS_TABLE+1];
 
@@ -117,7 +118,7 @@ endif;
 
 
 //Getppid syscall
-if(sysCall==11) then
+if(sysCall==12) then
 
     alias pid R3;
 

@@ -10,6 +10,7 @@ int main(){
 
     begin
 
+
         while(1==1) do
             temp=exposcall("Write",-2,"eXpos Shell");
             temp=exposcall("Read",-1,name);
