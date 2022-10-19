@@ -38,6 +38,10 @@
 2.Store the value in the BP register on top of the kernel stack of child process.Why?
     - When the child is scheduled for the first time , it is in CREATED state , so how does the scheduler know there is user context to be restored? (What about BP?)
     -There is also doubt whether should I update KPTR
+    - Things worked without updating KPTR, why?
+
+
+
 
 # Mistake I made
 1. Used load instead of loadi in boot module

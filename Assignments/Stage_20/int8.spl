@@ -224,8 +224,7 @@ endwhile;
 //Store the value in the BP register on top of the kernel stack of child process.
 [([PROCESS_TABLE +(pid*PT_ENTRY_SIZE) + 11]*512)]=BP;
 
-//Updating KPTR field of child process to 1  (I think this is necessary)
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+12]=1;
+
 
 
 alias childUserSP R11;

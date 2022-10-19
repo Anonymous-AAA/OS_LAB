@@ -15,6 +15,7 @@ int main(){
             temp=exposcall("Exec","even_num.xsm");
         endif;
 
+        // temp=exposcall("Write",-2,temp);
 
 
         return 0;
