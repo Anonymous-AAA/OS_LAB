@@ -16,8 +16,10 @@ int main(){
 
             if(name=="shutdown" OR name=="Shutdown") then
                 temp=exposcall("Shutdown");
+                break;
             else
                 pid=exposcall("Fork");
+                
                 if(pid!=0) then
                     temp=exposcall("Wait",pid);
                 else

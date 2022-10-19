@@ -3,11 +3,13 @@
 alias sysCall R1;
 alias userSP R2;
 
+//Storing userSP
+userSP=SP;
+
 //Extracting  System Call number from user stack
 sysCall=[([PTBR + 2 * ((userSP - 5) / 512)] * 512) + ((userSP - 5) % 512)];
 
-//Storing userSP
-userSP=SP;
+
 
 //Save the value of SP in the user SP field of Process Table entry of the process.
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=SP;
@@ -29,6 +31,8 @@ if(sysCall==13) then
     //Extract PID from the user stack
     alias pid R3;
     pid=[([PTBR + 2 * ((userSP - 4) / 512)] * 512) + ((userSP - 4) % 512)];
+
+   
 
     //Checking whether the pid is invalid Then Return -1
     if(pid==[SYSTEM_STATUS_TABLE+1] || [PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+4]==TERMINATED || pid>=MAX_PROC_NUM || pid<0) then
@@ -58,11 +62,11 @@ if(sysCall==13) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
 
-    //Set 0 as Return Value in the user stack. (Address Translation required)
+   //Set 0 as Return Value in the user stack. (Address Translation required)
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = 0;    
 
+    
 
-    ireturn;
 
 endif;
 
@@ -96,7 +100,7 @@ if(sysCall==14) then
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = 0;    
 
 
-    ireturn;
+
 
 endif;
 
@@ -108,7 +112,7 @@ if(sysCall==11) then
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = [SYSTEM_STATUS_TABLE+1];
 
 
-    ireturn;
+    
 endif;
 
 
@@ -123,9 +127,14 @@ if(sysCall==11) then
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = [PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+2];
 
 
-    ireturn;
+    
 endif;
 
+
+//Switch to user stack
+SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 13];
+
+ireturn;
 
 
 
