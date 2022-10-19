@@ -1,0 +1,28 @@
+//Shell Ver-2
+
+int main(){
+
+
+    decl
+        str name;
+        int temp;
+    enddecl
+
+    begin
+        temp=exposcall("Read",-1,name);
+
+        if(name=="shutdown"|| name=="Shutdown" ) then
+            temp=exposcall("Shutdown");
+        else
+            temp=exposcall("Fork");
+            if(temp!=0) then
+
+
+
+
+        return 0;
+
+    end
+
+
+}
