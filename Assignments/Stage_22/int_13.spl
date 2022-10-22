@@ -125,7 +125,7 @@ if(sysCall==18) then
     userAreaPage=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+11];
     resourceTable=((userAreaPage+1)*512)-16;
 
-    //Checking IF Semaphore Descriptor is valid
+    //Checking IF Semaphore Descriptor is invalid
     if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!=1) then
 
          //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
@@ -167,6 +167,7 @@ if(sysCall==18) then
     ireturn;
 
 endif;
+
 
 
 
