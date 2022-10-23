@@ -154,6 +154,7 @@ if(functionNum==7) then
     //Decrement the process count of the semaphore in the semaphore table.
     [SEMAPHORE_TABLE+(3*semTableIndex)+1]= [SEMAPHORE_TABLE+(3*semTableIndex)+1]-1;   
 
+    return; //Not specified in the pseudocode
 
 endif;
 

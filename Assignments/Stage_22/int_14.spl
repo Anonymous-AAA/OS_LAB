@@ -57,15 +57,17 @@ if(sysCall==19) then
 
     semTableIndex=[resourceTable+(2*semDesc)+1];
 
+    
 
     //If the requested semaphore is currently locked by some other process, the current process blocks its execution
-    while([SEMAPHORE_TABLE+(3*semTableIndex)]!=[SYSTEM_STATUS_TABLE+1]) do
+    while([SEMAPHORE_TABLE+(3*semTableIndex)]!=-1) do
 
         //Change state to wait semaphore,semTableIndex
         [PROCESS_TABLE+(PT_ENTRY_SIZE*[SYSTEM_STATUS_TABLE+1])+4]=WAIT_SEMAPHORE;
         [PROCESS_TABLE+(PT_ENTRY_SIZE*[SYSTEM_STATUS_TABLE+1])+5]=semTableIndex;
 
         //Call scheduler
+        
         multipush(R1,R2,R3,R4,R5,R6);
         call MOD_5;
         multipop(R1,R2,R3,R4,R5,R6);
@@ -74,6 +76,8 @@ if(sysCall==19) then
         
 
     endwhile;
+
+    
 
     //Change the Locking PID to PID of the current process in the Semaphore Table .
     [SEMAPHORE_TABLE+(3*semTableIndex)]=[SYSTEM_STATUS_TABLE+1];  

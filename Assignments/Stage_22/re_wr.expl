@@ -19,16 +19,14 @@ enddecl
 begin
   x = exposcall("Heapset");
   semid = exposcall("Semget");
-  breakpoint;
   head = exposcall("Alloc", 2);
   head.isempty = 1;
   pidone = exposcall("Fork");
-  breakpoint;
+
   if (pidone == 0) then
     iter = 1;
     while(iter <= 100) do
       temp = exposcall("SemLock", semid);
-      breakpoint;
       temp = head.isempty;
 
       if(temp == 1) then
@@ -38,7 +36,6 @@ begin
       endif;
 
       temp = exposcall("SemUnLock", semid);
-      breakpoint;
 
       counter = 0;
       while(counter < 50) do
@@ -47,12 +44,11 @@ begin
     endwhile;
   else
     pidtwo =  exposcall("Fork");
-    breakpoint;
+
     if(pidtwo == 0) then
       iter = 2;
       while(iter <= 100) do
         temp = exposcall("SemLock", semid);
-        breakpoint;
         temp = head.isempty;
 
         if(temp == 1) then
@@ -62,13 +58,11 @@ begin
         endif;
         
         temp = exposcall("SemUnLock", semid);
-        breakpoint;
       endwhile;
     else
       iter = 1;
       while(iter <= 100) do
         temp = exposcall("SemLock", semid);
-        breakpoint;
         temp = head.isempty;
 
         if(temp == 0) then
@@ -79,13 +73,11 @@ begin
         endif;
 
         temp = exposcall("SemUnLock", semid);
-        breakpoint;
       endwhile;
     endif;
   endif;
 
   temp = exposcall("Semrelease", semid);
-  breakpoint;
   return 0;
 end
 }
