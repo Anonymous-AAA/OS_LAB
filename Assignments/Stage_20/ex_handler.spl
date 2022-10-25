@@ -28,19 +28,23 @@ if(EC !=0 || userSP==(PTLR*512)-1) then     //Exception is not due to Page Fault
     //Print meaningful error messages
     
     if(EC==1) then
-    print("Illegal Instruction");
+    print("IIns");
+    breakpoint;
     endif;
 
     if(EC==2) then
-    print("Illegal Memory Access");
+    print("IMAccess");
+    breakpoint;
     endif;
 
     if(EC==3) then
-    print("Arithmetic exception");
+    print("AE");
+    breakpoint;
     endif;
 
     if(userSP==(PTLR*512)-1) then
-    print("User Stack is Full");
+    print("UStk_Full");
+    breakpoint;
     endif;
 
     //Invoke the Exit Process function to Halt the process (Process Manager Module)

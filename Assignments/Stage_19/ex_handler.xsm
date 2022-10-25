@@ -40,27 +40,30 @@ JZ R16, _L1
 MOV R16, 1
 EQ R16, EC
 JZ R16, _L3
-MOV R16, "Illegal Instruction"
+MOV R16, "II"
 PORT P1, R16
 OUT
+BRKP
 JMP _L4
 _L3:
 _L4:
 MOV R16, 2
 EQ R16, EC
 JZ R16, _L5
-MOV R16, "Illegal Memory Access"
+MOV R16, "IMAccess"
 PORT P1, R16
 OUT
+BRKP
 JMP _L6
 _L5:
 _L6:
 MOV R16, 3
 EQ R16, EC
 JZ R16, _L7
-MOV R16, "Arithmetic exception"
+MOV R16, "AE"
 PORT P1, R16
 OUT
+BRKP
 JMP _L8
 _L7:
 _L8:
@@ -69,9 +72,10 @@ MUL R16, 512
 SUB R16, 1
 EQ R16, R1
 JZ R16, _L9
-MOV R16, "User Stack is Full"
+MOV R16, "UStk_Full"
 PORT P1, R16
 OUT
+BRKP
 JMP _L10
 _L9:
 _L10:
