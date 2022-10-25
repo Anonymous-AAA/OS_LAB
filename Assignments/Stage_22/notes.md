@@ -4,3 +4,6 @@
 
 # Doubts
 1. Why is pid needed for Acquire Semaphore
+
+# Mistakes I made
+1. For Fork while copying contents of the stack from parent to child , I assumed the two stacks to be contiguous.

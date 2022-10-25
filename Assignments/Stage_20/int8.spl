@@ -215,8 +215,17 @@ loop=0;
 
 
 
-while(loop<1024) do                         //2 pages=1024 words
-    [firstStack*512+loop]=[[PTBR+16]*512+loop];     //[PTBR+16] contains the physical page number of starting point of user stack of parent
+//First Stack
+while(loop<512) do                         //1 page=512 words
+    [(firstStack*512)+loop]=[([PTBR+16]*512)+loop];     //[PTBR+16] contains the physical page number of starting point of user stack of parent
+    loop=loop+1;
+endwhile;
+
+loop=0;
+
+//Second Stack
+while(loop<512) do                         //1 page=512 words
+    [(secondStack*512)+loop]=[([PTBR+18]*512)+loop];     //[PTBR+16] contains the physical page number of starting point of user stack of parent
     loop=loop+1;
 endwhile;
 
