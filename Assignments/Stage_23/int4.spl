@@ -1,0 +1,138 @@
+//INT 4 - Create, Delete
+
+alias sysCall R1;
+alias userSP R2;
+
+//Storing userSP
+userSP=SP;
+
+//Extracting  System Call number from user stack
+sysCall=[([PTBR + 2 * ((userSP - 5) / 512)] * 512) + ((userSP - 5) % 512)];
+
+
+//Save the value of SP in the user SP field of Process Table entry of the process.
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=SP;
+
+
+//Set the value of SP to beginning of the kernel stack.
+SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;
+
+//Getting the fileName (Argument 1)
+alias fileName R3;
+fileName=[([PTBR + 2 * ((userSP - 4) / 512)] * 512) + ((userSP - 4) % 512)];
+
+
+
+
+//Checking whether it is Create System Call
+if(sysCall==1) then
+
+    //Set the MODE FLAG field in the process table to the system call number which is 1 for Create system call
+    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 1;
+
+
+    //Check whether the file is present already by checking inode table
+    alias loop R4;
+    loop=0;
+    //If the file is present in the system, Return 0. 
+    while(loop<MAX_FILE_NUM) do
+
+        if([INODE_TABLE+(loop*16)+1]==fileName) then
+            //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
+            [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
+
+            //Set 0 as Return Value in the user stack. (Address Translation required)
+            [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] =0;
+
+            //Switch to user stack
+            SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 13];
+
+            ireturn;
+
+            
+        endif;
+        loop=loop+1;
+    endwhile;
+
+
+    //Find the index of a free entry in inode table (-1 in filename)
+    alias index R5;
+    index=0;
+    while(index<MAX_FILE_NUM) do
+        if([INODE_TABLE+(index*16)+1]==-1) then 
+            break;
+        endif;
+        index=index+1;
+    endwhile;
+
+
+
+    //If no free entry found, Return -1.
+    if(index==MAX_FILE_NUM) then
+
+        //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
+        [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
+
+        //Set -1 as Return Value in the user stack. (Address Translation required)
+        [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = -1;
+
+        //Switch to user stack
+        SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 13];
+
+        ireturn;
+
+    endif;
+
+
+    //In the inode table entry set FILE NAME to the given file name, FILE SIZE to 0 and FILE TYPE to DATA
+    [INODE_TABLE+(index*16)]=DATA;              //Type
+    [INODE_TABLE+(index*16)+1]=fileName;        //name
+    [INODE_TABLE+(index*16)+2]=0;               //size
+    
+    //set the block numbers to -1.
+    [INODE_TABLE+(index*16)+8]=-1;
+    [INODE_TABLE+(index*16)+9]=-1;
+    [INODE_TABLE+(index*16)+10]=-1;
+    [INODE_TABLE+(index*16)+11]=-1;
+
+
+    //Set the USER ID to the USERID of the process
+    alias userId R6;
+    userId=[PROCESS_TABLE+(PT_ENTRY_SIZE*[SYSTEM_STATUS_TABLE+1])+3];
+    [INODE_TABLE+(index*16)+3]=userId;
+
+    //Getting the permission value (argument 2)
+    alias permission R7;
+    permission=[([PTBR + 2 * ((userSP - 3) / 512)] * 512) + ((userSP - 3) % 512)];
+
+    //Set the PERMISSION to the permission supplied as input.
+    [INODE_TABLE+(index*16)+4]=permission;
+
+    //In the Root file entry corresponding to the Inode Table index, 
+    set the FILE NAME, FILE SIZE, FILE TYPE, USERNAME and PERMISSION fields.
+    [ROOT_FILE+(index*8)]=fileName;         //name
+    [ROOT_FILE+(index*8)+1]=0;              //size
+    [ROOT_FILE+(index*8)+2]=DATA;           //Type
+    [ROOT_FILE+(index*8)+3]=[USER_TABLE+(userId*2)];      //USERNAME (from user Table)
+    [ROOT_FILE+(index*8)+4]=permission;     //permission
+
+
+    //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
+    [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
+
+    //Switch to user stack
+    SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 13];
+
+    //Set 0 as Return Value in the user stack. (Address Translation required)
+    [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = 0; 
+
+    ireturn;
+
+
+
+endif;
+
+
+//Checking whether it is the Delete system Call
+if(sysCall==4) then
+    
