@@ -205,8 +205,32 @@ if(functionNum==5) then
     alias inodeIndex R2;
     alias pid R3;
 
-    
+    //If PID given as input is not equal to the LOCKING PID in the File Status Table, Return -1.
+    if(pid!=[FILE_STATUS_TABLE+(4*inodeIndex)]) then
+            R0=-1;
+            return;
+    endif;
 
+    //Free the lock in the File Status Table corresponding to the inode index;       /* Set the Lock field to -1 */
+    [FILE_STATUS_TABLE+(4*inodeIndex)]=-1;
+
+    alias loop R4;
+    loop=0;
+    
+    //Loop through the process table and processes with state as (WAIT_FILE,inodeIndex) should be set as READY 
+    while(loop<MAX_PROC_NUM) do
+
+        if([PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]==WAIT_FILE && [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]==inodeIndex)then
+            [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]=READY;
+            [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]=-1;
+        endif;
+        loop=loop+1;
+    endwhile;
+
+
+    //Return 0
+    R0=0;
+    return;
 
 
 

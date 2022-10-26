@@ -24,3 +24,7 @@ FILE OPEN COUNT (1 word) - specifies the number of open instances of the file. T
 # Question
 1. What would happen if we do not initilize the FILE OPEN COUNT in the File Status Table to -1?
 2. Does disk blocks get freed anywhere else other than the delete system call?
+
+
+# Doubt
+1. In shutdown system call , should the current process pid taken from system status table
