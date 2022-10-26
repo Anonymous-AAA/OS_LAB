@@ -274,7 +274,7 @@ endwhile;
 loop=0;
 while(loop<MAX_FILE_NUM) do
     [FILE_STATUS_TABLE+(loop*4)]=-1;    //Set Locking pid to -1
-    [FILE_STATUS_TABLE+(loop*4)+1]=-1   //Set File open count to -1
+    [FILE_STATUS_TABLE+(loop*4)+1]=-1;   //Set File open count to -1
     loop=loop+1;
 endwhile;
 
