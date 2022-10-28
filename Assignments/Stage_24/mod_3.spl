@@ -115,3 +115,56 @@ if(functionNum==3) then
     return;
 
 endif;
+
+
+//Close Function
+if(functionNum==4) then
+
+    alias fileTableIndex R2;
+
+    alias openFileTableEntry R3;
+    alias index R4;
+
+    openFileTableEntry=OPEN_FILE_TABLE+(fileTableIndex*4);
+
+    //Find the index of the Inode Table entry of the file from the Open File Table.
+    index=[openFileTableEntry];
+
+    alias openInstanceCount R5;
+    openInstanceCount=openFileTableEntry+1;
+
+    //In the Open File Table Entry, decrement the Open Instance Count.
+    [openInstanceCount]=[openInstanceCount]-1;
+
+    //If the Open Instance Count becomes 0
+    if([openInstanceCount]==0)then
+
+        //Invalidate the entry by setting all fields to -1.
+        [openFileTableEntry]=-1;        //inode index
+        [openFileTableEntry+1]=-1;      //Open Instance Count
+        [openFileTableEntry+2]=-1;      //LSEEK
+
+        //If the file is not the "root", decrement the File Open Count in the File (Inode) Status Table.
+        if(index!=INODE_ROOT)then
+            alias fileOpenCount R6;
+            fileOpenCount=FILE_STATUS_TABLE+(index*4)+1;
+            [fileOpenCount]=[fileOpenCount]-1;
+            //If the File Open Count in File Status Table becomes 0, set it to -1.
+            if([fileOpenCount]==0) then
+                [fileOpenCount]=-1;
+            endif;
+        endif;
+
+
+
+
+    endif;
+
+
+
+    return;
+
+
+
+
+endif;
