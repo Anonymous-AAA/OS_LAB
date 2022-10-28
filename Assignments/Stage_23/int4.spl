@@ -219,24 +219,24 @@ if(sysCall==4) then
 
 
     //Acquire a lock on the file by calling the acquire_inode() function in the Resource Manager module.
-    multipush(R1,R2,R3,R4,R5);
+    multipush(R1,R2,R3,R4,R5,R10,R11);
     R1=4;   //Acquire Inode function number
     R2=index;       //Inode index
     R3=[SYSTEM_STATUS_TABLE+1];  //Current PID
     call MOD_0;  //Resource Manager module
-    multipop(R1,R2,R3,R4,R5);
+    multipop(R1,R2,R3,R4,R5,R10,R11);
 
 
     //Check if the the file open count is -1 in the  File Status Table . If not, release the lock and Return -2.   
     if([FILE_STATUS_TABLE+(4*index)+1]!=-1) then
 
         //Release lock on the file by calling the release_inode() function in the Resource Manager module.
-        multipush(R1,R2,R3,R4,R5);
+        multipush(R1,R2,R3,R4,R5,R10,R11);
         R1=5;   //Release Inode function number
         R2=index;       //Inode index
         R3=[SYSTEM_STATUS_TABLE+1];  //Current PID
         call MOD_0;  //Resource Manager module
-        multipop(R1,R2,R3,R4,R5);
+        multipop(R1,R2,R3,R4,R5,R10,R11);
 
         //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [processTableEntry + 9] = 0;
@@ -267,12 +267,12 @@ if(sysCall==4) then
         endif;
 
         //Call the release_block() function in the Memory Manager module to free the disk block.
-        multipush(R1,R2,R3,R4,R5,R6,R7);
+        multipush(R1,R2,R3,R4,R5,R6,R7,R10,R11);
         R1=4;   //Release Block function number
         R2=block;   //Block number
         R3=[SYSTEM_STATUS_TABLE+1]; //PID
         call MOD_2;     //Memory Manager module
-        multipop(R1,R2,R3,R4,R5,R6,R7);
+        multipop(R1,R2,R3,R4,R5,R6,R7,R10,R11);
 
         loop=loop+1;
     endwhile;
@@ -294,12 +294,12 @@ if(sysCall==4) then
 
 
     //Release the lock on the file by calling the release_inode() function in the Resource Manager module.
-    multipush(R1,R2,R3,R4,R5,R6,R7);
+    multipush(R1,R2,R3,R4,R5,R6,R7,R10,R11);
     R1=5;   //Release Inode function number
     R2=index;       //Inode index
     R3=[SYSTEM_STATUS_TABLE+1];  //Current PID
     call MOD_0;  //Resource Manager module
-    multipop(R1,R2,R3,R4,R5,R6,R7);
+    multipop(R1,R2,R3,R4,R5,R6,R7,R10,R11);
 
 
 
