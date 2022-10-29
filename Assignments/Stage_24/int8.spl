@@ -182,6 +182,11 @@ while(loop<8) do
         [SEMAPHORE_TABLE+([childPerProcessTable+(2*loop)+1]*4)+1]=[SEMAPHORE_TABLE+([childPerProcessTable+(2*loop)+1]*4)+1]+1;
     endif;
 
+    if([childPerProcessTable+(2*loop)]==FILE) then
+        [OPEN_FILE_TABLE+([childPerProcessTable+(2*loop)+1]*4)+1]=[OPEN_FILE_TABLE+([childPerProcessTable+(2*loop)+1]*4)+1]+1;
+    endif;
+
+
     loop=loop+1;
 endwhile;
 

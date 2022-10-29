@@ -8,6 +8,8 @@
 
 4. Note that the Root file is different from the other files - It has a reserved memory page copy. 
 
+5. Reading from the root file does not require a buffer, as root file is already loaded into the memory at boot-time.
+
 
 
 # Questions
