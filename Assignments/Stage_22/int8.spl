@@ -1,27 +1,37 @@
 // Fork System Call (INT 8) (System Call Number 8)
 
-alias userSP R10; 
+alias userSP R1; 
 userSP=SP;
 
 
+
+
+alias processTableEntry R2;
+processTableEntry=PROCESS_TABLE+([SYSTEM_STATUS_TABLE+1]*PT_ENTRY_SIZE);
+
+
+alias returnAddr R3;
+returnAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
+
+
 //Set the MODE FLAG field in the process table to the system call number which is 8 for fork system call
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 8;
+[processTableEntry + 9] = 8;
 
 //Save the value of SP in the user SP field of Process Table entry of the process.
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=SP;
+[processTableEntry + 13]=SP;
 
 //Set the value of SP to beginning of the kernel stack.
-SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;
+SP=([processTableEntry + 11]*512)-1;
 
 
 //Find a free process table entry by invoking Get PCB entry (function 1) in process manager module(MOD 1)
-
-//No context to save as registers are not used
+multipush(R1,R2,R3);
 R1=1;       //Function number 1
 //No arguments
 call MOD_1;     //Memory manager module
+multipop(R1,R2,R3);
 
-alias pid R1; 
+alias pid R4; 
 
 
 
@@ -30,13 +40,13 @@ pid=R0;  //R0 contains the process table entry (pid) which is free
 if(pid==-1) then    //No free entry in Process table, so Return indicating failure
 
      //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
-    [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+    [processTableEntry + 9] = 0;
 
     //Set -1 as Return Value in the user stack. (Address Translation required)
-    [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = -1;
+    [returnAddr] = -1;
 
     //Switch to user stack
-    SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];
+    SP=[processTableEntry + 13];
 
     ireturn;
 endif;
@@ -48,10 +58,10 @@ if([PTBR+4]==-1 || [PTBR+6]==-1) then   //Checking whether heap pages are alloca
 
     //For First Heap Page
     //Invoke get free page function of memory manager module
-    multipush(R1);
+    multipush(R1,R2,R3,R4);
     R1=1;       //Get free Page Function number
     call MOD_2;     //Calling memory manager module
-    multipop(R1);
+    multipop(R1,R2,R3,R4);
 
     alias freePage R0;      //R0 contains the freePage Number
 
@@ -62,10 +72,10 @@ if([PTBR+4]==-1 || [PTBR+6]==-1) then   //Checking whether heap pages are alloca
 
     //For Second Heap Page
     //Invoke get free page function of memory manager module
-    multipush(R1);
+    multipush(R1,R2,R3,R4);
     R1=1;       //Get free Page Function number
     call MOD_2;     //Calling memory manager module
-    multipop(R1);
+    multipop(R1,R2,R3,R4);
 
     //Update the Page Table entry for the second Heap Page
     [PTBR+6]=freePage;
@@ -76,73 +86,76 @@ endif;
 
 //For First Stack Page for child
 //Invoke get free page function of memory manager module
-multipush(R1);
+multipush(R1,R2,R3,R4);
 R1=1;       //Get free Page Function number
 call MOD_2;     //Calling memory manager module
-multipop(R1);
+multipop(R1,R2,R3,R4);
 
-alias firstStack R2;
+alias firstStack R5;
 firstStack=R0;
 
 
 //For Second Stack Page for child
 //Invoke get free page function of memory manager module
-multipush(R1,R2);
+multipush(R1,R2,R3,R4,R5);
 R1=1;       //Get free Page Function number
 call MOD_2;     //Calling memory manager module
-multipop(R1,R2);
+multipop(R1,R2,R3,R4,R5);
 
-alias secondStack R3;
+alias secondStack R6;
 secondStack=R0;
 
 
 //User Area Page for child
 //Invoke get free page function of memory manager module
-multipush(R1,R2,R3);
+multipush(R1,R2,R3,R4,R5,R6);
 R1=1;       //Get free Page Function number
 call MOD_2;     //Calling memory manager module
-multipop(R1,R2,R3);
+multipop(R1,R2,R3,R4,R5,R6);
 
-alias userAreaPage R4;
+alias userAreaPage R7;
 userAreaPage=R0;
 
+
+alias childProcessTableEntry R8;
+childProcessTableEntry=PROCESS_TABLE+(pid*PT_ENTRY_SIZE);
 
 //Initializing Process Table entries for child process
 
 //Copy USERID field from parent to child
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+3]=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+3];
+[childProcessTableEntry+3]=[processTableEntry+3];
 
 
 //Copy SWAP FLAG field from parent to child
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+6]=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+6];
+[childProcessTableEntry+6]=[processTableEntry+6];
 
 //Copy USER AREA SWAP STATUS field from parent to child
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+10]=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+10];
+[childProcessTableEntry+10]=[processTableEntry+10];
 
 //Copy INODE INDEX field from parent to child
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+7]=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+7];
+[childProcessTableEntry+7]=[processTableEntry+7];
 
 //Copy UPTR field from parent to child
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+13]=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+13];
+[childProcessTableEntry+13]=[processTableEntry+13];
 
 
 //Set MODE FLAG  to 0
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+9]=0;
+[childProcessTableEntry+9]=0;
 
 //Set KPTR  to 0
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+12]=0;
+[childProcessTableEntry+12]=0;
 
 //Set TICK  to 0
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)]=0;
+[childProcessTableEntry]=0;
 
 //PID of the parent is stored in the PPID field of the process table of the child.
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+2]=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+1];
+[childProcessTableEntry+2]=[processTableEntry+1];
 
 //State of Child Process is set to CREATED
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+4]=CREATED;
+[childProcessTableEntry+4]=CREATED;
 
 //Store UserAreaPage obtained in the USER AREA PAGE NUMBER field of Child Process
-[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+11]=userAreaPage;
+[childProcessTableEntry+11]=userAreaPage;
 
 
 //PID, PTBR and PTLR fields are initialized in  Get Pcb Entry function
@@ -150,17 +163,13 @@ userAreaPage=R0;
 
 
 //Copying Per Process Resource Table in User Area Page from parent to child
-alias parentPerProcessTable R5;
-alias childPerProcessTable R6;
-alias loop R7;
-alias parentUserAreaPage R8;
-
-
-parentUserAreaPage=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+11];
+alias parentPerProcessTable R9;
+alias childPerProcessTable R10;
+alias loop R11;
 
 loop=0;
-childPerProcessTable=((userAreaPage+1)*512)-16;
-parentPerProcessTable=((parentUserAreaPage+1)*512)-16;
+childPerProcessTable=(userAreaPage*512)+RESOURCE_TABLE_OFFSET;
+parentPerProcessTable=([processTableEntry+11]*512)+RESOURCE_TABLE_OFFSET;
 
 
 
@@ -191,8 +200,8 @@ endwhile;
 //Initialize the page table of the child process.
 
 //Copy heap,code and Library pages from parent to child
-alias childPTBR R9;
-childPTBR=[PROCESS_TABLE+(pid*PT_ENTRY_SIZE)+14];
+alias childPTBR R12;
+childPTBR=[childProcessTableEntry+14];
 
 //Parent ptbr is in PTBR register
 
@@ -241,30 +250,30 @@ endwhile;
 
 
 //Store the value in the BP register on top of the kernel stack of child process.
-[([PROCESS_TABLE +(pid*PT_ENTRY_SIZE) + 11]*512)]=BP;
+[([childProcessTableEntry + 11]*512)]=BP;
 
 
 
 
-alias childUserSP R11;
+alias childUserSP R13;
 
-childUserSP=[PROCESS_TABLE +(pid* 16)+ 13];
+childUserSP=[childProcessTableEntry+ 13];
 
 
 //Set pid as Return Value in the user stack of Parent process. (Address Translation required)
-[([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = pid;
+[returnAddr] = pid;
 
 
-//Set zero as Return Value in the user stack of Parent process. (Address Translation required)
+//Set zero as Return Value in the user stack of child process. (Address Translation required)
 [([childPTBR + 2 * ((childUserSP - 1) / 512)] * 512) + ((childUserSP - 1) % 512)] = 0;
 
 
 //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
+[processTableEntry + 9] = 0;
 
 
 //Switch to user stack of parent process
-SP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];
+SP=[processTableEntry + 13];
 
 ireturn;    //Return to user mode
 
