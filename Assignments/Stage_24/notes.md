@@ -29,3 +29,7 @@ A. Because the file descriptor is unique for the process and its children and th
 
 # My Questions 
 1. Why is the type of the file checked after acquiring the inode in open function in file manager.
+
+
+# Errors
+1. Modification in test 5 (check tst5md.expl)
