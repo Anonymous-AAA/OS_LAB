@@ -10,6 +10,9 @@
 
 5. Reading from the root file does not require a buffer, as root file is already loaded into the memory at boot-time.
 
+6. A process needs to acquire a buffer before accessing it to prevent data inconsistency that may arise if other processes are allowed to access the buffer concurrently.
+
+
 
 
 # Questions
