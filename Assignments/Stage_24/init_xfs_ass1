@@ -24,5 +24,11 @@ load --int=14   /home/anonymous/OS_lab/Assignments/Stage_22/int_14.xsm
 load --int=4    /home/anonymous/OS_lab/Assignments/Stage_23/int4.xsm
 load --int=5    /home/anonymous/OS_lab/Assignments/Stage_24/int5.xsm
 load --module 3   /home/anonymous/OS_lab/Assignments/Stage_24/mod_3.xsm
+rm read.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_24/read.xsm
+rm sample.dat
+load --data /home/anonymous/OS_lab/myexpos/sample.dat
+rm numbers.dat
+load --data  /home/anonymous/OS_lab/Assignments/Stage_24/numbers.dat
 dump --inodeusertable
 dump --rootfile

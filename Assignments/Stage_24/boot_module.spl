@@ -1,4 +1,5 @@
 //loadi(mem,disk)
+// breakpoint;
 
 //Load INT 5 (Seek, Open, Close)
 loadi(12,25);
