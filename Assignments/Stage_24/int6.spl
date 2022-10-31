@@ -1,4 +1,4 @@
-//Read System Call
+//Read System Call (System Call number 7)
 
 //Save the value of register SP as userSP
 alias userSP R1;

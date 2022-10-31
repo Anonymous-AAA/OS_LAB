@@ -1,0 +1,2 @@
+# Stage 25
+1. eXpOS design ensures that the value of LSEEK can never exceed the file size. This ensures that a write operation allocates exactly one new block for a file when the LSEEK value is a multiple of 512 and is equal to the file size.
