@@ -130,7 +130,7 @@ if(sysCall==3) then
 
     //If file descriptor is invalid, Return -1.  
 
-    if(fileDesc<0 && fileDesc>7) then
+    if(fileDesc<0 || fileDesc>7) then
 
         //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [processTableEntry + 9] = 0;
