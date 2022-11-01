@@ -17,3 +17,7 @@ A.Create,Write (Maybe delete also)
 
 5. If your OS code has no bugs, acquire_inode() in the above code will never fail. Why?
 A.Since we are getting the Inode index of the file just before acquire_inode, the file is ensured to be present in the disk, so the acquire inode cannot fail. (It can only fail if File was deleted by the time the inode was acquired */)
+
+
+# Notes
+1. Assumed that shell process has process id 1

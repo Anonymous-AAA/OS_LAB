@@ -6,6 +6,7 @@ enddecl
 int main()
 {
 begin
+    temp=exposcall("Write",-2,"Enter name");
     temp = exposcall("Read",-1,filename);
     filedis = exposcall("Open",filename);
     semid = exposcall("Semget");

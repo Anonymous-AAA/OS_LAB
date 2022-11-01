@@ -260,7 +260,7 @@ if(sysCall==6) then
 
     //Get the index of the Open File Table entry from the Per Process Resource Table entry.
     alias fileTableIndex R8;
-    fileTableIndex=[resourceTable+(fileDescriptor*2)+1];
+    fileTableIndex=[resourceTable+(fileDesc*2)+1];
 
     //Get the index of the Inode Table entry from the Open File Table entry. 
     alias inodeIndex R9;
@@ -317,7 +317,7 @@ if(sysCall==6) then
         call MOD_0;     //Resource Manager
         multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11);
 
-        [physicalAddrRetVal]=-2;
+        [returnValueAddr]=-2;
 
         //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [processTableEntry+ 9] = 0;
@@ -335,12 +335,16 @@ if(sysCall==6) then
     if(offset==0) then
         //Set lseek value in the Open File Table entry to 0.
         [OPEN_FILE_TABLE+(fileTableIndex*4)+2]=0;
-    else if((lseek+offset)>fileSize) then
-        //Set the lseek value to file size
-        [OPEN_FILE_TABLE+(fileTableIndex*4)+2]=fileSize;
-    else
-        //Change the lseek value in the Open File Table to lseek+offset.
-        [OPEN_FILE_TABLE+(fileTableIndex*4)+2]=lseek+offset;
+    else 
+    
+        if((lseek+offset)>fileSize) then
+            //Set the lseek value to file size
+            [OPEN_FILE_TABLE+(fileTableIndex*4)+2]=fileSize;
+        else
+            //Change the lseek value in the Open File Table to lseek+offset.
+            [OPEN_FILE_TABLE+(fileTableIndex*4)+2]=lseek+offset;
+        endif;
+
     endif;
 
 
@@ -359,7 +363,7 @@ if(sysCall==6) then
     SP = userSP;
 
     //Return 0
-    [physicalAddrRetVal]=0;
+    [returnValueAddr]=0;
 
     //passing control back to user program
     ireturn;
