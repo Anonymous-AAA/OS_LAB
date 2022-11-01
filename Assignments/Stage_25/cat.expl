@@ -14,21 +14,39 @@ int main(){
 
         fileDesc=exposcall("Open",file);
 
-        while(1==1) do
-            temp=exposcall("Read",fileDesc,data);
+        if(fileDesc==-1) then
+            temp=exposcall("Write",-2,"NotFound OR");
+            temp=exposcall("Write",-2,"NotData/Root");
+            
+        endif;
 
-            if(temp==-2) then
-                break;
-            endif;
+        if(fileDesc==-2) then
+            temp=exposcall("Write",-2,"SysMaxFileLimit");
+            
+        endif;
 
-            temp=exposcall("Write",-2,data);
-        endwhile;
+        if(fileDesc==-3) then
+            temp=exposcall("Write",-2,"ProcMaxLimit");
+            
+        endif;
+
+
+        if(fileDesc>=0) then
+            while(1==1) do
+                temp=exposcall("Read",fileDesc,data);
+
+                if(temp==-2) then
+                    break;
+                endif;
+
+                temp=exposcall("Write",-2,data);
+            endwhile;
 
 
 
-        temp=exposcall("Close",fileDesc);
-        
-
+            temp=exposcall("Close",fileDesc);
+            
+        endif;
 
 
         return 0;
