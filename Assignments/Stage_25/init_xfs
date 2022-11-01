@@ -24,5 +24,7 @@ load --int=14   /home/anonymous/OS_lab/Assignments/Stage_22/int_14.xsm
 load --int=4    /home/anonymous/OS_lab/Assignments/Stage_23/int4.xsm
 load --int=5    /home/anonymous/OS_lab/Assignments/Stage_25/int5.xsm
 load --module 3   /home/anonymous/OS_lab/Assignments/Stage_25/mod_3.xsm
+rm ls.xsm
+load --exec     /home/anonymous/OS_lab/Assignments/Stage_25/ls.xsm
 dump --inodeusertable
 dump --rootfile
