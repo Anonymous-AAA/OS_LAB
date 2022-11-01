@@ -26,5 +26,13 @@ load --int=5    /home/anonymous/OS_lab/Assignments/Stage_25/int5.xsm
 load --module 3   /home/anonymous/OS_lab/Assignments/Stage_25/mod_3.xsm
 rm ls.xsm
 load --exec     /home/anonymous/OS_lab/Assignments/Stage_25/ls.xsm
+rm rm.xsm
+load --exec     /home/anonymous/OS_lab/Assignments/Stage_25/rm.xsm
+rm numbers.dat
+load --data  /home/anonymous/OS_lab/Assignments/Stage_24/numbers.dat
+rm cp.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_25/cp.xsm
+rm cat.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_25/cat.xsm
 dump --inodeusertable
 dump --rootfile
