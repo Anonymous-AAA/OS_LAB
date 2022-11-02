@@ -22,3 +22,6 @@ A.Since we are getting the Inode index of the file just before acquire_inode, th
 # Notes
 1. Assumed that shell process has process id 1
 2. Only basic error checking is implemented shell utilities
+
+# Eureka
+1. Found an error in exception handler , using registers before backing up.

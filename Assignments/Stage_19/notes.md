@@ -42,3 +42,6 @@ b) fetch an instruction from a legal address within its address space, whose pag
 
 
 3.EXPL NULL is null
+
+# Errors
+1. Exception Handler has some error in Stage 19, corrected in stage 20, more info refer notes of stage 25

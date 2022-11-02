@@ -5,19 +5,26 @@
 //Set the MODE FLAG field in the process table to -1 to indicate exception handler
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = -1;
 
-//Save the value of register SP as userSP
-alias userSP R1;
-userSP=SP;
+//Store the SP value in the UPTR field in the process table entry of the currently running process.
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=SP;      
 
-//Save the value of SP in the user SP field of Process Table entry of the process.
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=userSP;
-
-
-//Set the value of SP to beginning of the kernel stack.
+//Switch to the kernel stack
 SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;
 
 //Save the user context to the kernel stack
 backup;
+
+
+
+
+
+//Save the value of register SP as userSP
+alias userSP R1;
+userSP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13];
+
+
+
+
 
 //push EIP onto the stack 
 //The execption handler may block for a disk Read and invoke the scheduler during it's course of execution. The value of the EIP register must be stored before scheduling other processes as the current value will be overwritten by the machine if an exception occurs in another application that is scheduled in this way.

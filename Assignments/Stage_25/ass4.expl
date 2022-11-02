@@ -138,13 +138,12 @@ int main()
 
       //Merge "temp3.dat" and "temp4.dat" into "tempb.dat"
       x=merge("tempb.dat", "temp3.dat", "temp4.dat");
-      breakpoint;
+
       x=exposcall("Exit");
     endif;
 
     //Merge "tempa.dat" and "tempb.dat" into "merge.dat"
     //which contains numbers from 1 to 2048 in sorted order
-    
     x=merge("merge.dat", "tempa.dat", "tempb.dat");
 
     return 1;
