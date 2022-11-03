@@ -17,6 +17,8 @@ load --module 2 /home/anonymous/OS_lab/Assignments/Stage_20/mod_2.xsm
 load --int=disk /home/anonymous/OS_lab/Assignments/Stage_19/disk_int.xsm
 rm par_ass2.xsm
 load --exec /home/anonymous/OS_lab/Assignments/Stage_22/par_ass2.xsm
+rm par_mod.xsm
+load --exec /home/anonymous/OS_lab/Assignments/Stage_22/par_mod.xsm
 rm child.xsm
 load --exec /home/anonymous/OS_lab/Assignments/Stage_22/child.xsm
 load --exhandler  /home/anonymous/OS_lab/Assignments/Stage_20/ex_handler.xsm
