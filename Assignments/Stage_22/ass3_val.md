@@ -1,4 +1,6 @@
-# Maximum Memory Usage
+# Assignment 3
+
+## Memory Usage
 (Sequential)-   Code-  3
                 Heap-  2
                 Stack- 2
@@ -13,4 +15,11 @@
               -----------
               Total-   9
 
-             
+# Assignment 2
+
+## Memory Usage
+- Whole memory gets used
+
+## Number of disk access
+
+
