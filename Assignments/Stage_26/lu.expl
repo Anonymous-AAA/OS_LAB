@@ -4,8 +4,7 @@ int main(){
 
 
     decl
-        int temp,userID;
-        str username;
+        int temp,userID,username;       //username is int , if set as str shows error
     enddecl
 
     begin

@@ -60,8 +60,8 @@ multipop(R1,R2,R3,R4);
 //of the stack of the shell(current process). Reset the USERSP field of the shell to 4096.
 
 alias entryIP R5;
-entryIP=([PTBR+4]*512)+1;
-[[PTBR+8]*512]=entryIP;
+entryIP=[([PTBR+8]*512)+1];
+[[PTBR+16]*512]=entryIP;
 [processTableEntry+13]=4096;
 
 //Wake up the Login process by changing STATE in it's process table entry to READY.

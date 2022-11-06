@@ -8,7 +8,7 @@ enddecl
 begin
     a=1;
     while(a == 1) do
-        temp = exposcall("Write",-2, "---Enter---");
+        temp = exposcall("Write",-2, "<eXpos Shell>");
         temp = exposcall("Read",-1, input);
 
         flag=0;

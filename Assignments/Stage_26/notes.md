@@ -12,3 +12,7 @@ A. Exit process deallocates all pages used by process, but we dont have to as th
 
 # Doubts
 1. No ireturn in int12
+
+
+# Error
+1. Username in lu.expl is set as int

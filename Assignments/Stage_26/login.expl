@@ -12,16 +12,16 @@ int main(){
     begin
 
         while(1==1) do
-            temp=exposcall("Write",-2,"Enter name");
+            temp=exposcall("Write",-2,"Username");
             temp=exposcall("Read",-1,username);
 
-            temp=exposcall("Write",-2,"Enter password");
+            temp=exposcall("Write",-2,"Password");
             temp=exposcall("Read",-1,password);
 
             retval=exposcall("Login",username,password);
 
             if(retval==-1) then
-                temp=exposcall("Write",-2,"Invalid credentials");
+                temp=exposcall("Write",-2,"Invalid creds");
             endif;
 
             if(retval==-2) then

@@ -79,7 +79,7 @@ if(sysCall==22) then
 
     //Find a free entry in the User Table. If no free entry is found, return -3.
     userID=0;
-    while(userID<MAX_USER_NUM && [USER_TABLE+(userID*2)]!=-1) then
+    while(userID<MAX_USER_NUM && [USER_TABLE+(userID*2)]!=-1) do
         userID=userID+1;
     endwhile;
 

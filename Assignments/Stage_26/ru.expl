@@ -4,7 +4,7 @@ int main(){
 
     decl
         int temp,fileDesc;
-        str username,fileUsr;
+        str username,fileUsr,data;
     enddecl
 
     begin
@@ -25,7 +25,7 @@ int main(){
                 temp=exposcall("Seek",fileDesc,2);
                 temp=exposcall("Read",fileDesc,fileUsr);
                 if(fileUsr==username) then
-                    temp=exposcall("Delete",-2,data);
+                    temp=exposcall("Delete",data);
                 endif;
                 temp=exposcall("Seek",fileDesc,-3);
             endif;
