@@ -168,7 +168,7 @@ MOV R0,"Write"
 PUSH R0
 MOV R0,-2
 PUSH R0
-MOV R0,"Permission denied"
+MOV R0,"PermDenied"
 PUSH R0
 PUSH R0
 PUSH R0

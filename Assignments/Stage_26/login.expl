@@ -25,7 +25,7 @@ int main(){
             endif;
 
             if(retval==-2) then
-                temp=exposcall("Write",-2,"Permission denied");
+                temp=exposcall("Write",-2,"PermDenied");
             endif;
 
 
