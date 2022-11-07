@@ -17,3 +17,5 @@
 ### Shell Process
 1. User Stack- 78,79
 2. User Area Page- 80
+
+Current Mem free count -47
