@@ -147,17 +147,36 @@ if(functionNum==SWAP_IN) then
     alias swpPID R3;
     alias loop R4;
     alias hiTick R5;
-    alias procEntry
+    alias swpProc
     swpPID=-1;
     loop=0;
     hiTick=-1;
 
     while(loop<MAX_PROC_NUM) do
-        procEntry=PROCESS_TABLE+(loop*PT_ENTRY_SIZE);
+        swpProc=PROCESS_TABLE+(loop*PT_ENTRY_SIZE);
+
+        //Process is ready and swapped
+        if([swpProc+4]==READY && [swpProc+6]==1 && [swpProc]>hiTick) then
+            swpPID=loop;
+            hiTick=[swpProc];
+        endif;
         
 
         loop=loop+1;
     endwhile;
+
+
+    //If there is no such process in the READY state, reset the PAGING_STATUS field to 0 and Return.
+    if(swpPID==-1) then
+        [SYSTEM_STATUS_TABLE+5]=0;
+        return;
+    endif;
+
+    //Set the TICK field of the process table entry of the selected process to 0.
+    swpProc=PROCESS_TABLE+(swpPID*PT_ENTRY_SIZE);
+    [swpProc]=0;
+
+    
 
 
 
