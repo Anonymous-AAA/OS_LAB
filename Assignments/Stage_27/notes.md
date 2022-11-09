@@ -19,3 +19,5 @@ A. There is demand paging, so if the code page is required , page fault is gener
 - I guess its because heap pages when needed are allocated together (not as a single page).
 
 2. What is the reasoning behind the order of choosing the process to swap out? Why is a process in WAIT_PROCESS swapped out ahead of a process waiting for the terminal? What about processes waiting for the disk?
+
+3. Is it possible that there are processes waiting for memory, even when MEM_FREE_COUNT > MEM_HIGH?

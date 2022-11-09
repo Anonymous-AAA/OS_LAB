@@ -231,7 +231,7 @@ if(functionNum==SWAP_IN) then
         [pageEntry+1]="0110";       //unreferenced,valid,writable
 
         //Invalidate the Disk Map Table entry corresponding to the page.
-        
+        [DISK_MAP_TABLE+(swpPID*10)+loop]=-1;
        
 
 
@@ -240,6 +240,15 @@ if(functionNum==SWAP_IN) then
     endwhile;
 
 
+    //Set the SWAP_FLAG field in the process table entry of the process to 0.
+    [swpProc+6]=0;
+
+    //In the System Status Table, decrement the SWAP_COUNT and reset the PAGING_STATUS back to 0.	
+    [SYSTEM_STATUS_TABLE+4]=[SYSTEM_STATUS_TABLE+4]-1;
+    [SYSTEM_STATUS_TABLE+5]=0;
+    // The scheduler can now resume normal scheduling
+
+    return;
 
 
 endif;
