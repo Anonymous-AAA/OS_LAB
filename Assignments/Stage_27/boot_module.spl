@@ -343,45 +343,61 @@ endwhile;
 
 
 //Initializing Per Process Resource Table in User Area Page of init process
-alias PerProcessTable R2;
-
+alias initResourceTable R2;
 
 loop=0;
-PerProcessTable=((77+1)*512)-16;  //User Area Page of Init process is 77
+initResourceTable=(77*512)+RESOURCE_TABLE_OFFSET;  //User Area Page of Init process is 77
 
 while(loop<16) do
-    [PerProcessTable+loop]=-1;
+    [initResourceTable+loop]=-1;
+    loop=loop+1;
+endwhile;
+
+
+//Initializing Per Process Resource Table in User Area Page of Shell process
+alias shellResourceTable R2;
+
+loop=0;
+shellResourceTable=(80*512)+RESOURCE_TABLE_OFFSET;  //User Area Page of Shell process is 80
+
+while(loop<16) do
+    [shellResourceTable+loop]=-1;
     loop=loop+1;
 endwhile;
 
 
 
 
-
+alias semEntry R5;
 //Initialize the semaphore table by setting PROCESS COUNT to 0 and LOCKING PID to -1 for all entries.
 loop=0;
 while(loop<MAX_SEM_COUNT) do
-    [SEMAPHORE_TABLE+(3*loop)]=-1;
-    [SEMAPHORE_TABLE+(3*loop)+1]=0;
+    semEntry=SEMAPHORE_TABLE+(3*loop);
+    [semEntry]=-1;
+    [semEntry+1]=0;
     loop=loop+1;
 endwhile;
 
 
 //Initialize the file status table by setting LOCKING PID and FILE OPEN COUNT fields of all entries to -1.
 loop=0;
+alias fileStatusEntry R5;
 while(loop<MAX_FILE_NUM) do
-    [FILE_STATUS_TABLE+(loop*4)]=-1;    //Set Locking pid to -1
-    [FILE_STATUS_TABLE+(loop*4)+1]=-1;   //Set File open count to -1
+    fileStatusEntry=FILE_STATUS_TABLE+(loop*4);
+    [fileStatusEntry]=-1;    //Set Locking pid to -1
+    [fileStatusEntry+1]=-1;   //Set File open count to -1
     loop=loop+1;
 endwhile;
 
 
 //Initialize the buffer table by setting BLOCK NUMBER and LOCKING PID fields to -1 and DIRTY BIT to 0 in all entries.
 loop=0;
+alias bufferTableEntry R5;
 while(loop<MAX_BUFFER) do
-    [BUFFER_TABLE+(loop*4)]=-1;    //Block number
-    [BUFFER_TABLE+(loop*4)+1]=0;    //Dirty bit
-    [BUFFER_TABLE+(loop*4)+2]=-1;   //Locking PID
+    bufferTableEntry=BUFFER_TABLE+(loop*4);
+    [bufferTableEntry]=-1;    //Block number
+    [bufferTableEntry+1]=0;    //Dirty bit
+    [bufferTableEntry+2]=-1;   //Locking PID
     loop=loop+1;
 endwhile;
 
@@ -389,10 +405,11 @@ endwhile;
 
 //Initialize all entries of the open file table by setting INODE INDEX field to -1 and OPEN INSTANCE COUNT field to 0.
 loop=0;
+alias openFileTableEntry R5;
 while(loop<MAX_OPENFILE_NUM) do
-
-    [OPEN_FILE_TABLE+(loop*4)]=-1;  //Inode Index field to -1
-    [OPEN_FILE_TABLE+(loop*4)+1]=0; //Open Instance count to 0
+    openFileTableEntry=OPEN_FILE_TABLE+(loop*4);
+    [openFileTableEntry]=-1;  //Inode Index field to -1
+    [openFileTableEntry+1]=0; //Open Instance count to 0
 
 
     loop=loop+1;

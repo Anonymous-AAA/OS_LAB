@@ -1,4 +1,4 @@
-
+//breakpoint;
 //Load Load module 7 (Boot Module)from disk blocks 67 and 68 to memory pages 54 and 55 respectively.
 
 loadi(54,67);
