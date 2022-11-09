@@ -147,7 +147,7 @@ if(functionNum==SWAP_IN) then
     alias swpPID R3;
     alias loop R4;
     alias hiTick R5;
-    alias swpProc
+    alias swpProc R6;
     swpPID=-1;
     loop=0;
     hiTick=-1;
@@ -177,6 +177,68 @@ if(functionNum==SWAP_IN) then
     [swpProc]=0;
 
     
+    alias diskBlock R7;
+    alias swpPTBR R8;
+    alias pageEntry R9;
+    alias freePage R10;
+    swpPTBR=[swpProc+14];
+    
+
+
+    //Loop through the Disk Map Table and ignore the code pages
+    loop=2;     //0 and 1 are unused
+    while(loop<10) do
+
+        //Get the disk block number in the Disk Map Table entry of the process corresponding to the page.
+        diskBlock=[DISK_MAP_TABLE+(swpPID*10)+loop];
+
+        if((loop>=4 && loop<=7) || diskBlock==-1) then    //ignore code pages
+            loop=loop+1;
+            continue;
+        endif;
+
+
+        pageEntry=swpPTBR+(loop*2);
+
+        //Call the get_free_page() function in the Memory Manager module to allocate a memory page.
+        multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+        R1=GET_FREE_PAGE;
+        call MOD_2;  //Memory Manager
+        multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+
+        freePage=R0;
+
+        //Use the disk_load() function in the Device Manager module to copy the heap page found above to the memory.
+        multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+        R1=DISK_LOAD;
+        R2=pid;
+        R3=freePage;      //Page number
+        R4=diskBlock;   //Block number
+        call MOD_4;     //Device Manager Module
+        multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+
+        //Free the swap block by calling the release_block() function in the Memory Manager module.
+        multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+        R1=RELEASE_BLOCK;
+        R3=pid;
+        R2=diskBlock;   //Block number
+        call MOD_2;     //Memory Manager
+        multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+        
+
+        //Set the Page table entry correpsonding to the page.
+        [pageEntry]=freePage;
+        [pageEntry+1]="0110";       //unreferenced,valid,writable
+
+        //Invalidate the Disk Map Table entry corresponding to the page.
+        
+       
+
+
+
+        loop=loop+1;
+    endwhile;
+
 
 
 
