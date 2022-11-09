@@ -47,7 +47,7 @@ else
 	endwhile;
 
 	//If no process (that is not swapped out) is in  READY or CREATED state, select the Idle process;
-	if(newPID==SWAPPER_DAEMON) then
+	if(newPID>=SWAPPER_DAEMON) then
 		newPID=IDLE_PROCESS;
 	endif;
 

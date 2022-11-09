@@ -315,7 +315,7 @@ endwhile;
 alias loop R1;
 loop=0;
 
-while(loop<81) do
+while(loop<83) do
     [MEMORY_FREE_LIST+loop]=1;
     loop=loop+1;
 endwhile;
@@ -400,10 +400,10 @@ endwhile;
 
 
 //Initialize the TICK field to 0 for all the 16 process table entries.
-pid=0;
-while(pid<MAX_PROC_NUM) do
-    [PROCESS_TABLE+(pid*PT_ENTRY_SIZE)]=0;
-    pid=pid+1;
+loop=0;
+while(loop<MAX_PROC_NUM) do
+    [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)]=0;
+    loop=loop+1;
 endwhile;
 
 

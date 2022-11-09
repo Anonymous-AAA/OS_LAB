@@ -10,6 +10,7 @@
 
 ## Errors
 1. In documentation of System Status Table, Swap Out/Swap In are indicated by 1 and 2, respectively.
+2. Update memory free list and processes in terminated status in boot_module not mentioned as changes to be made.
 
 
 ## Doubts
@@ -21,3 +22,7 @@ A. There is demand paging, so if the code page is required , page fault is gener
 2. What is the reasoning behind the order of choosing the process to swap out? Why is a process in WAIT_PROCESS swapped out ahead of a process waiting for the terminal? What about processes waiting for the disk?
 
 3. Is it possible that there are processes waiting for memory, even when MEM_FREE_COUNT > MEM_HIGH?
+
+
+## Changes made
+1.In line 50 of MOD_5 I made a change to check whether newPID is greater or equal to SWAPPER_DAEMON, instead of just checking whether its equal to SWAPPER_DAEMON

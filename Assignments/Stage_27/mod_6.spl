@@ -86,25 +86,27 @@ if(functionNum==SWAP_OUT) then
         pageEntry=swpPTBR+(loop*2);
         page=[pageEntry];
 
-        if((loop==8 || loop==9) || ((loop==2 || loop==3) && (page!=-1 && [MEMORY_FREE_LIST+page]==1)) ) then
+        if(loop==8 || loop==9 || loop==2 || loop==3) then
 
-            //Get a free swap block by calling the get_swap_block() function in the Memory Manager module.
-            multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
-            R1=GET_SWAP_BLOCK;
-            call MOD_2; //Memory Manager
-            multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+            if(page!=-1 && [MEMORY_FREE_LIST+page]==1) then
+                //Get a free swap block by calling the get_swap_block() function in the Memory Manager module.
+                multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+                R1=GET_SWAP_BLOCK;
+                call MOD_2; //Memory Manager
+                multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
 
-            //Store the disk block number in the Disk Map Table entry of the process curresponding to the page.
-            [DISK_MAP_TABLE+(swpPID*10)+loop]=R0;
+                //Store the disk block number in the Disk Map Table entry of the process curresponding to the page.
+                [DISK_MAP_TABLE+(swpPID*10)+loop]=R0;
 
-            //Use the disk_store() function in the Device Manager module to write the page to the block found above
-            multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
-            R1=DISK_STORE;
-            R2=pid;
-            R3=page;
-            R4=R0;      //Block number
-            call MOD_4;     //Device Manager
-            multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+                //Use the disk_store() function in the Device Manager module to write the page to the block found above
+                multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+                R1=DISK_STORE;
+                R2=pid;
+                R3=page;
+                R4=R0;      //Block number
+                call MOD_4;     //Device Manager
+                multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+            endif;
 
         endif;
 
