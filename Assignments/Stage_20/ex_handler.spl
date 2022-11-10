@@ -75,12 +75,12 @@ if(EPN>=4 && EPN<=7) then  //Checking whether the Page fault is caused due to a 
     blockNum=[DISK_MAP_TABLE+([SYSTEM_STATUS_TABLE+1]*10)+EPN]; //Getting the Block Number to be loaded
     
     //Call Get Code Page Function in memory manager Module(MOD_2)
-    multipush(R1,R2);
+    multipush(R1,R2,EPN);
     R1=5;        //Get Code Page Function number
     //R2 already contains the block number
     call MOD_2;     //Memory Manager Module
-    multipop(R1,R2);
-
+    multipop(R1,R2,EPN);
+   
     // Update the page table entry for this code page
     [PTBR+(EPN*2)]=R0;    //R0 contains the Physical Page number where the code is loaded
     [PTBR+(EPN*2)+1]="1100";  //Set reference and valid bits to 1 , write bit to 0 (Code pages cannot be written)
@@ -91,10 +91,10 @@ if(EPN==2 || EPN==3) then //Checking whether the Page fault is caused due to a h
 
     //For First Heap Page
     //Invoke get free page function of memory manager module
-    multipush(R1);
+    multipush(R1,EPN);
     R1=1;       //Get free Page Function number
     call MOD_2;     //Calling memory manager module
-    multipop(R1);
+    multipop(R1,EPN);
 
     alias freePage R0;      //R0 contains the freePage Number
 
@@ -105,10 +105,10 @@ if(EPN==2 || EPN==3) then //Checking whether the Page fault is caused due to a h
 
     //For Second Heap Page
     //Invoke get free page function of memory manager module
-    multipush(R1);
+    multipush(R1,EPN);
     R1=1;       //Get free Page Function number
     call MOD_2;     //Calling memory manager module
-    multipop(R1);
+    multipop(R1,EPN);
 
     //Update the Page Table entry for the second Heap Page
     [PTBR+6]=freePage;

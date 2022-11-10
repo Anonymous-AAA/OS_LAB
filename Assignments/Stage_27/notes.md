@@ -26,3 +26,8 @@ A. There is demand paging, so if the code page is required , page fault is gener
 
 ## Changes made
 1.In line 50 of MOD_5 I made a change to check whether newPID is greater or equal to SWAPPER_DAEMON, instead of just checking whether its equal to SWAPPER_DAEMON.
+2. Changed exception handler in stage 20 to push EPN to kernel stack when calling modules.
+3. Chaneged Free Page Table function in Memory Manager Module to user PTBR from the process Table.
+
+## Things to Note
+1. watchpoints are not triggered by load statements

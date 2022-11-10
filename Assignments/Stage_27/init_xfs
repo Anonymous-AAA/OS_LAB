@@ -49,5 +49,9 @@ rm as3s27.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/as3s27.xsm
 rm pgm1.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/pgm1.xsm
+rm as4s27.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/as4s27.xsm
+rm pgm2.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/pgm2.xsm
 dump --inodeusertable
 dump --rootfile
