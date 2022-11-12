@@ -234,8 +234,8 @@ if(functionNum==2) then
     endif;
 
 
-    //Copy the contents in the offset location in the buffer to the physical address given as input; 
-    [memAddr]=[BUFFER+(bufferNum*512)+offset];
+    //Copy the contents in the offset location in the buffer to the logical address given as input; 
+    [([PTBR+2*(memAddr/512)]*512)+(memAddr%512)]=[BUFFER+(bufferNum*512)+offset];
 
     //Release the buffer by calling the Release_Buffer() function in the Resource Manager module;
     multipush(R1,R2,R3,R4,R5,R6);

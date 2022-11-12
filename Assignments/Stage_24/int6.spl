@@ -225,7 +225,7 @@ else
         R1=2;   //Buffered Read
         R2=diskBlockNumber;     //Disk Block Number
         R3=offset;
-        R4=physicalAddr;        //physicalAddress should be provided
+        R4=word;        //LogicalAddress should be provided
         call MOD_3;             //File Manager
         multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13,R14);
 
