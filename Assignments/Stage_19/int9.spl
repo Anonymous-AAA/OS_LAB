@@ -1,7 +1,7 @@
 //Exec System Call - INT 9  (System Call Number 9)
 
 //Save the value of register SP as userSP
-alias userSP R0;
+alias userSP R1;
 userSP=SP;
 
 //Save the value of SP in the user SP field of Process Table entry of the process.
@@ -15,17 +15,17 @@ SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;
 
 //Get the file name (Argument 1) from the user stack.
 //Convert Logical Address to Physical Address
-alias physicalPageNum R1;
-alias offset R2;
-alias fileNamePhysicalAddr R3;
+alias physicalPageNum R2;
+alias offset R3;
+alias fileNamePhysicalAddr R4;
 physicalPageNum = [PTBR + 2 * ((userSP - 4)/ 512)];
 offset = (userSP - 4) % 512;
 fileNamePhysicalAddr = (physicalPageNum * 512) + offset;
-alias fileName R4;
+alias fileName R5;
 fileName=[fileNamePhysicalAddr];
 
 //Search the memory copy of the inode table for the file
-alias inodeIndex R5;
+alias inodeIndex R6;
 inodeIndex=0;
 
 while(inodeIndex<MAX_FILE_NUM && [INODE_TABLE+(16*inodeIndex)+1]!=fileName)do
@@ -40,7 +40,7 @@ if(inodeIndex>MAX_FILE_NUM || [INODE_TABLE+(16*inodeIndex)]!=EXEC) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 0;
 
-    alias physicalAddrRetVal R6;
+    alias physicalAddrRetVal R7;
 	physicalAddrRetVal = ([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 	[physicalAddrRetVal] = -1;
 
@@ -51,15 +51,15 @@ endif;
 
 
 // Call exit process function from the Process Manager module
-multipush(R0,R1,R2,R3,R4,R5,R6);  //Saving register Context
+multipush(R1,R2,R3,R4,R5,R6,R7);  //Saving register Context
 R1=3;  //Function number of exit process
 R2=[SYSTEM_STATUS_TABLE + 1];           //PID of the current process
 call MOD_1;                             //Calling Process Manager Module
 
 //Ignore contents of R0 as nothing is returned
-multipop(R0,R1,R2,R3,R4,R5,R6); //restoring Context
+multipop(R1,R2,R3,R4,R5,R6,R7); //restoring Context
 
-alias userAreaPage R7;
+alias userAreaPage R8;
 
 //Get User Area Page
 userAreaPage=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]; 
@@ -72,8 +72,8 @@ userAreaPage=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11];
 
 
 //Initializing Per Process Resource Table in User Area Page
-alias PerProcessTable R8;
-alias loop R9;
+alias PerProcessTable R9;
+alias loop R10;
 
 loop=0;
 PerProcessTable=((userAreaPage+1)*512)-16;
@@ -117,10 +117,10 @@ SP=(userAreaPage*512)-1;
 
 
 //Calling Memory Manager Module
-multipush(R0,R1,R2,R3,R4,R5,R6,R7,R8,R9);  //Saving register Context
+multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);  //Saving register Context
 R1=1;    //Function number of Get Free Page in Memory Manager Module
 call MOD_2;
-
+multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
 
 
 
@@ -129,9 +129,11 @@ call MOD_2;
 [PTBR+16] = R0;
 [PTBR+17] = "0110";
 
-
+multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);  //Saving register Context
 R1=1;    //Function number of Get Free Page in Memory Manager Module
 call MOD_2;
+multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);
+
 
 //Allocating second Stack Page
 [PTBR+18] = R0;
@@ -139,22 +141,21 @@ call MOD_2;
 
 
 
-//Not popping because we have Get Code Page Function to Call
+
 
 //Invoke Get Code Page Function in Memory Manager Module
-
+multipush(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);  //Saving register Context
 R1=5;   //Function Number
 R2=[INODE_TABLE+(16*inodeIndex)+8];     //First Block Number of the code
 call MOD_2;     //Memory Manager Module
 
-R10=R0; //Storing Return value in R8 (So as to not lose value While restoring context)
-multipop(R0,R1,R2,R3,R4,R5,R6,R7,R8,R9);  //Restoring register Context
+multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10);  //Saving register Context
 
 
 //Page Table Entries for the Code area
 
 //For first Page
-[PTBR+8]=R10;
+[PTBR+8]=R0;
 [PTBR+9]="0100";
 
 
@@ -171,7 +172,7 @@ endwhile;
 //Initialize the disk map table of the process
 loop=0;
 
-alias pid R10;
+alias pid R11;
 pid=[SYSTEM_STATUS_TABLE+1];
 
 //Initializing the code entries of disk map table
