@@ -53,5 +53,15 @@ rm as4s27.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/as4s27.xsm
 rm pgm2.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/pgm2.xsm
+rm seekt.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/seekt.xsm
+rm merge.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/merge.xsm
+rm m_store.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/m_store.xsm
+rm m_sort.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/m_sort.xsm
+rm m_merge.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/m_merge.xsm
 dump --inodeusertable
 dump --rootfile

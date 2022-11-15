@@ -60,7 +60,7 @@ if(sysCall==19) then
     
 
     //If the requested semaphore is currently locked by some other process, the current process blocks its execution
-    while([SEMAPHORE_TABLE+(3*semTableIndex)]!=-1) do
+    while([SEMAPHORE_TABLE+(4*semTableIndex)]!=-1) do
 
         //Change state to wait semaphore,semTableIndex
         [PROCESS_TABLE+(PT_ENTRY_SIZE*[SYSTEM_STATUS_TABLE+1])+4]=WAIT_SEMAPHORE;
@@ -80,7 +80,7 @@ if(sysCall==19) then
     
 
     //Change the Locking PID to PID of the current process in the Semaphore Table .
-    [SEMAPHORE_TABLE+(3*semTableIndex)]=[SYSTEM_STATUS_TABLE+1];  
+    [SEMAPHORE_TABLE+(4*semTableIndex)]=[SYSTEM_STATUS_TABLE+1];  
 
 
     //Switch to user stack
@@ -140,10 +140,10 @@ if(sysCall==20) then
     semTableIndex=[resourceTable+(2*semDesc)+1];
 
     //If semaphore is locked
-    if([SEMAPHORE_TABLE+(semTableIndex*3)]!=-1) then
+    if([SEMAPHORE_TABLE+(semTableIndex*4)]!=-1) then
 
         //If current process has not locked the semaphore Return -2
-        if([SEMAPHORE_TABLE+(semTableIndex*3)]!=[SYSTEM_STATUS_TABLE+1]) then
+        if([SEMAPHORE_TABLE+(semTableIndex*4)]!=[SYSTEM_STATUS_TABLE+1]) then
 
             //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
             [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
@@ -159,7 +159,7 @@ if(sysCall==20) then
 
 
         //Set the Locking PID to -1. (Unlock the semaphore)
-        [SEMAPHORE_TABLE+(semTableIndex*3)]=-1;
+        [SEMAPHORE_TABLE+(semTableIndex*4)]=-1;
 
 
         //Loop through the process table and change state to READY for processes in state (WAIT_SEMAPHORE,semTableIndex)

@@ -103,6 +103,8 @@ SP=(userAreaPage*512)-1;
 [PTBR+1] = "0100";
 [PTBR+2] = 64;
 [PTBR+3] = "0100";
+[MEMORY_FREE_LIST+63]=[MEMORY_FREE_LIST+63]+1;
+[MEMORY_FREE_LIST+64]=[MEMORY_FREE_LIST+64]+1;
 
 //Invalidating Page Table Entries for Heap
 

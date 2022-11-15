@@ -235,8 +235,8 @@ if(functionNum==2 || functionNum==1) then
 
     //For Buffered Read
     if(functionNum==2) then
-        //Copy the contents in the offset location in the buffer to the physical address given as input; 
-        [memAddr]=[BUFFER+(bufferNum*512)+offset];
+        //Copy the contents in the offset location in the buffer to the logical address given as input; (Using logical address instead of physical address)
+        [([PTBR+2*(memAddr/512)]*512)+(memAddr%512)]=[BUFFER+(bufferNum*512)+offset];
     endif;
 
     //For Buffered Write

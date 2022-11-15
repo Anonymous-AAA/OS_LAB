@@ -28,6 +28,15 @@ A. There is demand paging, so if the code page is required , page fault is gener
 1.In line 50 of MOD_5 I made a change to check whether newPID is greater or equal to SWAPPER_DAEMON, instead of just checking whether its equal to SWAPPER_DAEMON.
 2. Changed exception handler in stage 20 to push EPN to kernel stack when calling modules.
 3. Chaneged Free Page Table function in Memory Manager Module to user PTBR from the process Table.
+4. Initialized swap flag of shell process in boot module
+5. Moved initializing tick field to os startup code
+6. Changed Buffered Read to use logical address instead of physical address.(Causes issue while swapping). If the physical address is precalculated and fed to buffered read, asbuffered read can get blocked as it needs to load from disk. If swapper is invoked in mean time , the pages of the process might change, causing the value to be stored in a different location.
+
+7. Pre calculating the return address is now a bad idea because the pager module, may swap out the pages in between. So in every system call, after a blocking module cal, the return address must be recalculated.
+
+8. Made  a mistake in initializing semaphore table, considered only three entries instead of four. Actually mad mistake in everywhere I used semaphore table ig. (Errors found in resource manager module,Boot module, int14(semlock and sem unlock)). In fork system call it was correct before.
+
+9. Modified decremented memory free list of library code during release and increment druing exec(need to compile)
 
 ## Things to Note
-1. watchpoints are not triggered by load statements
+1. watchpoints are not triggered by load statements. Checking the page table with watchpoints s an option

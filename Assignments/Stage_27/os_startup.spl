@@ -20,7 +20,14 @@ SP=(76*512)-1;  //Set up Stack for calling the boot module (kernel stack of IDLE
 
 call BOOT_MODULE;  //calling the boot module
 
-
+//Part of Boot Module
+alias loop R1;
+//Initialize the TICK field to 0 for all the 16 process table entries.
+loop=0;
+while(loop<MAX_PROC_NUM) do
+    [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)]=0;
+    loop=loop+1;
+endwhile;
 
 
 

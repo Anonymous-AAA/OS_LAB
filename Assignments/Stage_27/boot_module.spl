@@ -262,7 +262,7 @@ shellProcessEntry=PROCESS_TABLE+(2*PT_ENTRY_SIZE);
 [shellProcessEntry + 14] = shellPTBR;      //PTBR Field for shell Process
 [shellProcessEntry + 15] = 10;           //PTLR Field for shell Process
 [shellProcessEntry + 3] = 0;            //Setting user id of shell
-
+[shellProcessEntry + 6] = 0;            //Initializing Swap Flag(I added this)
 //Initialize the disk map table entry of the shell process (PID = 2)
 
 //Heap
@@ -372,7 +372,7 @@ alias semEntry R5;
 //Initialize the semaphore table by setting PROCESS COUNT to 0 and LOCKING PID to -1 for all entries.
 loop=0;
 while(loop<MAX_SEM_COUNT) do
-    semEntry=SEMAPHORE_TABLE+(3*loop);
+    semEntry=SEMAPHORE_TABLE+(4*loop);
     [semEntry]=-1;
     [semEntry+1]=0;
     loop=loop+1;
@@ -416,12 +416,12 @@ while(loop<MAX_OPENFILE_NUM) do
 endwhile;
 
 
-//Initialize the TICK field to 0 for all the 16 process table entries.
-loop=0;
-while(loop<MAX_PROC_NUM) do
-    [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)]=0;
-    loop=loop+1;
-endwhile;
+// //Initialize the TICK field to 0 for all the 16 process table entries.
+// loop=0;
+// while(loop<MAX_PROC_NUM) do
+//     [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)]=0;
+//     loop=loop+1;
+// endwhile;
 
 
 return;

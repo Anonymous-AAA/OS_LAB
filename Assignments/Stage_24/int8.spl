@@ -264,7 +264,7 @@ alias childUserSP R13;
 
 childUserSP=[childProcessTableEntry+ 13];
 
-
+returnAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 //Set pid as Return Value in the user stack of Parent process. (Address Translation required)
 [returnAddr] = pid;
 

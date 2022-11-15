@@ -106,11 +106,11 @@ if(functionNum==6) then     //Acquire Semaphore function
 
 
     //Set the LOCKING_PID to -1. (I have doubts on this step)
-    [SEMAPHORE_TABLE+(3*index)]=-1;
+    [SEMAPHORE_TABLE+(4*index)]=-1;
 
 
     //Set the PROCESS_COUNT to 1 
-    [SEMAPHORE_TABLE+(3*index)+1]=1;
+    [SEMAPHORE_TABLE+(4*index)+1]=1;
 
 
     //Return the Semaphore table index.
@@ -127,8 +127,8 @@ if(functionNum==7) then
     alias pid R3;
 
     //If semaphore is locked by the current process, unlock it (doubts in here)
-    if([SEMAPHORE_TABLE+(3*semTableIndex)]==pid) then
-        [SEMAPHORE_TABLE+(3*semTableIndex)]=-1;
+    if([SEMAPHORE_TABLE+(4*semTableIndex)]==pid) then
+        [SEMAPHORE_TABLE+(4*semTableIndex)]=-1;
 
 
         alias loop R4;
@@ -152,7 +152,7 @@ if(functionNum==7) then
 
     
     //Decrement the process count of the semaphore in the semaphore table.
-    [SEMAPHORE_TABLE+(3*semTableIndex)+1]= [SEMAPHORE_TABLE+(3*semTableIndex)+1]-1;   
+    [SEMAPHORE_TABLE+(4*semTableIndex)+1]= [SEMAPHORE_TABLE+(4*semTableIndex)+1]-1;   
 
     return; //Not specified in the pseudocode
 
@@ -222,7 +222,7 @@ if(functionNum==5) then
 
         if([PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]==WAIT_FILE && [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]==inodeIndex)then
             [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]=READY;
-            [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]=-1;
+            [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+5]="";
         endif;
         loop=loop+1;
     endwhile;
