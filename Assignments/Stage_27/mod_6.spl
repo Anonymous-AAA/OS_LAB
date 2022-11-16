@@ -14,21 +14,21 @@ if(functionNum==SWAP_OUT) then
     alias swpProc R4;
 
     //Loop through the Process Table and find a non-swapped process that is in the WAIT_PROCESS state
-    while(swpPID<MAX_PROC_NUM) do
+    while(swpPID<SWAPPER_DAEMON) do
         swpProc=PROCESS_TABLE+(swpPID*PT_ENTRY_SIZE);
-        if([swpProc+6]==0 && [swpProc+4]==WAIT_PROCESS) then
+        if([swpProc+6]!=1 && [swpProc+4]==WAIT_PROCESS) then
             break;
         endif;
         swpPID=swpPID+1;
     endwhile;
 
     //If there are no non-swapped processes in the WAIT_PROCESS state, find a non-swapped process in the WAIT_SEMAPHORE state.
-    if(swpPID==MAX_PROC_NUM) then
+    if(swpPID==SWAPPER_DAEMON) then
 
         swpPID=3;
-        while(swpPID<MAX_PROC_NUM) do
+        while(swpPID<SWAPPER_DAEMON) do
             swpProc=PROCESS_TABLE+(swpPID*PT_ENTRY_SIZE);
-            if([swpProc+6]==0 && [swpProc+4]==WAIT_SEMAPHORE) then
+            if([swpProc+6]!=1 && [swpProc+4]==WAIT_SEMAPHORE) then
                 break;
             endif;
             swpPID=swpPID+1;
@@ -39,18 +39,18 @@ if(functionNum==SWAP_OUT) then
     alias loop R5;
     //If there are no non-swapped processes in the WAIT_PROCESS and WAIT_SEMAPHORE state,
     //find process with the highest TICK which is not running, terminated, allocated or swapped. 
-    if(swpPID==MAX_PROC_NUM) then
+    if(swpPID==SWAPPER_DAEMON) then
         
         alias hiTick R6;
         alias state R7;
         hiTick=-1;
         swpPID=-1;
         loop=3;
-        while(loop<MAX_PROC_NUM) do
+        while(loop<SWAPPER_DAEMON) do
             swpProc=PROCESS_TABLE+(loop*PT_ENTRY_SIZE);
             state=[swpProc+4];
 
-            if(state!=RUNNING && state!=TERMINATED && state!=ALLOCATED && [swpProc+6]==0 && [swpProc]>hiTick) then
+            if(state!=RUNNING && state!=TERMINATED && state!=ALLOCATED && [swpProc+6]!=1 && [swpProc]>hiTick) then
                 hiTick=[swpProc];
                 swpPID=loop;
             endif;
@@ -151,10 +151,10 @@ if(functionNum==SWAP_IN) then
     alias hiTick R5;
     alias swpProc R6;
     swpPID=-1;
-    loop=0;
+    loop=SHELL_PROCESS+1;
     hiTick=-1;
 
-    while(loop<MAX_PROC_NUM) do
+    while(loop<SWAPPER_DAEMON) do
         swpProc=PROCESS_TABLE+(loop*PT_ENTRY_SIZE);
 
         //Process is ready and swapped

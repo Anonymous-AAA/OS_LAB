@@ -3,12 +3,12 @@
 //Set the MODE FLAG field in the process table to the system call number which is 10 for exit system call
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 9] = 10;
 
-//Save the value of register SP as userSP
-alias userSP R1;
-userSP=SP;
+// //Save the value of register SP as userSP
+// alias userSP R1;
+// userSP=SP;
 
-//Save the value of SP in the user SP field of Process Table entry of the process.
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=userSP;
+// //Save the value of SP in the user SP field of Process Table entry of the process.
+// [PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 13]=userSP;
 
 //Set the value of SP to beginning of the kernel stack.
 SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE + 1] * 16 + 11]*512)-1;

@@ -28,34 +28,16 @@ if(pagingStatus!=0) then
 
     //Call Swap In/Out, if necessary
 
-    if(pid==SWAPPER_DAEMON && pagingStatus==SWAP_OUT) then
-        //Call the swap_out() function in the Pager Module.
-        multipush(R1,R2);
-        //R1 already contains function number
-        //R2 already contains current pid
-        call MOD_6;     //Pager Module
-        multipop(R1,R2);
-
-
-    endif;
-
-
-
-    if(pid==SWAPPER_DAEMON && pagingStatus==SWAP_IN) then
-        //Call the swap_in() function in the Pager Module.
+    if(pid==SWAPPER_DAEMON) then
+        //Call the swap_out()/swap_in() function in the Pager Module.
         multipush(R1,R2);
         //R1 already contains function number
         //R2 already contains current pid
         call MOD_6;     //Pager Module
         multipop(R1,R2);
     endif;
+
     
-    
-    if(pid==IDLE_PROCESS) then
-        //Swapping is ongoing, but the daemon is blocked for some disk operation and idle is being run now
-        //Skip to the end to perform context switch.
-        goto switch;
-    endif;
 
 else       
     //Swapping is not on now.  Check whether it must be initiated
@@ -68,7 +50,7 @@ else
         [SYSTEM_STATUS_TABLE+5]=SWAP_OUT;
     else
         //If there are swapped out processes. Check SWAPPED_COUNT in System Status Table
-        if([SYSTEM_STATUS_TABLE+4]!=0) then
+        if([SYSTEM_STATUS_TABLE+4]>0) then
 
             //If (Tick of any Swapped Out process > MAX_TICK or MEM_FREE_COUNT > MEM_HIGH)
             // Swap In to be invoked during next Timer Interrupt
@@ -78,8 +60,8 @@ else
             else
 
                 alias lp R4;
-                lp=0;
-                while(lp<MAX_PROC_NUM) do
+                lp=SHELL_PROCESS+1;
+                while(lp<SWAPPER_DAEMON) do
                     
                     alias ptEntry R5;
                     ptEntry=PROCESS_TABLE+(lp*PT_ENTRY_SIZE);
@@ -138,8 +120,7 @@ loop=loop+1;
 endwhile;
 
 
-//Label
-switch:
+
 
 call MOD_5; // invoke  context switch module (Scheduler module)
 

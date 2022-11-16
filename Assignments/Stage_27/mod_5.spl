@@ -30,7 +30,7 @@ if([SYSTEM_STATUS_TABLE+5]!=0) then
 
 else
 
-	newPID=currentPID+1; 
+	newPID=(currentPID+1)%SWAPPER_DAEMON; 
 	alias ptEntry R3;
 	
 	//Find the next non swapped process to schedule using the Round Robin scheduling technique, 
@@ -81,7 +81,7 @@ PTLR = [new_process_table + 15];
 
 
 if([new_process_table + 4] == CREATED) then   //If the process is in created state it has no user context to Restore ,so there is no need to Restore.
-	BP=[SP];  	//Store the value in the first word of the kernel stack to the BP register. (only change in stage 20)
+	BP=[[new_process_table+11]*PAGE_SIZE];  	//Store the value in the first word of the kernel stack to the BP register. (only change in stage 20)
 	[new_process_table + 4] = RUNNING;        //Setting State
 	SP = [new_process_table + 13];            //Set SP to the value in the UPTR field of the process table entry.
 	[new_process_table + 9]=0;                //Set Mode flag field to 0
@@ -90,7 +90,7 @@ endif;
 
 
 [new_process_table + 4] = RUNNING;            //Set the state of the new process as RUNNING.
-
+SP =  [new_process_table+11] * PAGE_SIZE + [new_process_table+12];
 multipop(BP);     //Pop back BP
 
 return;

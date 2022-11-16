@@ -33,13 +33,13 @@ if(sysCall==19) then
     alias resourceTable R5;
 
     userAreaPage=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+11];
-    resourceTable=((userAreaPage+1)*512)-16;
+    resourceTable=(userAreaPage*512)+RESOURCE_TABLE_OFFSET;
 
 
 
     
     //Checking IF Semaphore Descriptor is invalid
-    if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!=1) then
+    if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!= SEMAPHORE) then
 
          //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
@@ -60,7 +60,7 @@ if(sysCall==19) then
     
 
     //If the requested semaphore is currently locked by some other process, the current process blocks its execution
-    while([SEMAPHORE_TABLE+(4*semTableIndex)]!=-1) do
+    while([SEMAPHORE_TABLE+(4*semTableIndex)]!=-1 && [SEMAPHORE_TABLE+(4*semTableIndex)]!=[SYSTEM_STATUS_TABLE+1]) do
 
         //Change state to wait semaphore,semTableIndex
         [PROCESS_TABLE+(PT_ENTRY_SIZE*[SYSTEM_STATUS_TABLE+1])+4]=WAIT_SEMAPHORE;
@@ -120,7 +120,7 @@ if(sysCall==20) then
 
 
     //Checking IF Semaphore Descriptor is invalid
-    if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!=1) then
+    if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!=SEMAPHORE) then
 
          //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;

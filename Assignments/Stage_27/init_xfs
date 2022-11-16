@@ -63,5 +63,7 @@ rm m_sort.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/m_sort.xsm
 rm m_merge.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/m_merge.xsm
+rm as4_mod.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_27/as4_mod.xsm
 dump --inodeusertable
 dump --rootfile

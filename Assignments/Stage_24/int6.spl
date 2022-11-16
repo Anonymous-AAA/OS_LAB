@@ -43,19 +43,19 @@ physicalAddrRetVal = ([PTBR + 2 * (userSP - 1)/ 512] * 512) + ((userSP - 1) % 51
 if(fileDescriptor==-1) then
     
     
-    multipush(R0,R1,R2,R3,R4,R5,R6);           //Saving Register Context
+    multipush(R1,R2,R3,R4,R5,R6);           //Saving Register Context
     R1=4;                                   //Store the function number of Terminal Read
     R2=pid;           //PID of the current process
     R3=word;                                //address of word
     call MOD_4;                             //Calling Device Manager Module
 
     //Ignore contents of R0 as terminal write does not Return anything
-    multipop(R0,R1,R2,R3,R4,R5,R6);            //Restore the Context
+    multipop(R1,R2,R3,R4,R5,R6);            //Restore the Context
 
-    //recalculating physical address
-    physicalAddrRetVal = ([PTBR + 2 * (userSP - 1)/ 512] * 512) + ((userSP - 1) % 512);
-    //Set the Return value as 0 indicating success
-    [physicalAddrRetVal] = 0;
+    // //recalculating physical address
+    // physicalAddrRetVal = ([PTBR + 2 * (userSP - 1)/ 512] * 512) + ((userSP - 1) % 512);
+    // //Set the Return value as 0 indicating success
+    // [physicalAddrRetVal] = 0;
 
 
 else

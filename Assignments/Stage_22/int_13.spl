@@ -35,7 +35,7 @@ if(sysCall== 17) then
 
     index=0;
     userAreaPage=[PROCESS_TABLE+([SYSTEM_STATUS_TABLE + 1]*PT_ENTRY_SIZE)+11];
-    resourceTable=((userAreaPage+1)*512)-16;
+    resourceTable=(userAreaPage*512)+RESOURCE_TABLE_OFFSET;
 
 
     //Checking for free entries in resource table
@@ -61,7 +61,7 @@ if(sysCall== 17) then
 
 
     //Resource Identifier field of the per-process resource table set to 1. (Semaphore)
-    [resourceTable+(index*2)]=1;
+    [resourceTable+(index*2)]=SEMAPHORE;
 
     //Call Acquire Semaphore from resource manager module
     multipush(R1,R2,R3,R4,R5);
@@ -126,7 +126,7 @@ if(sysCall==18) then
     resourceTable=((userAreaPage+1)*512)-16;
 
     //Checking IF Semaphore Descriptor is invalid
-    if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!=1) then
+    if(semDesc<0 || semDesc>7 || [resourceTable+(2*semDesc)]!=SEMAPHORE) then
 
          //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE + 1] * PT_ENTRY_SIZE) + 9] = 0;
