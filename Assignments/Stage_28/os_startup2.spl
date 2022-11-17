@@ -1,0 +1,8 @@
+[83*512] = [69 * 512 + 1];  // Storing the entry point of the code to the top of the stack of the IDLE_2 Process
+
+SP=8*512;
+
+PTBR=PAGE_TABLE_BASE+20*14;
+PTLR=10;
+
+ireturn;
