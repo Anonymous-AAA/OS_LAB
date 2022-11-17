@@ -7,7 +7,7 @@ if(functionNum==ACQUIRE_KERN_LOCK) then
     if(CORE==SECONDARY_CORE) then
 
         //If paging or logout status is on
-        if([SYSTEM_STATUS_TABLE+5]!=0 || [SYSTEM_STATUS_TABLE+7]!=0) Then
+        if([SYSTEM_STATUS_TABLE+5]!=0 || [SYSTEM_STATUS_TABLE+7]!=0) then
 
             // eXpOS design does not permit a process to execute critical code on the secondary core when paging or logout is ongoing.
             // Set the state of current process to READY

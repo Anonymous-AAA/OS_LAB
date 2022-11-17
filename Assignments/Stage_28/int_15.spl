@@ -51,6 +51,13 @@ if(pid!=2 || [PROCESS_TABLE+(PT_ENTRY_SIZE*pid)+3]!=1) then
 endif;
 
 
+//disable second core
+reset;
+
+//Set SCHED_LOCK to 0
+[SCHED_LOCK]=0;    
+
+
 
 //Invoke Kill All function of process manager module.
 multipush(R1,R2);

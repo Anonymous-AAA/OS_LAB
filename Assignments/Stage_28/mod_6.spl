@@ -50,7 +50,7 @@ if(functionNum==SWAP_OUT) then
             swpProc=PROCESS_TABLE+(loop*PT_ENTRY_SIZE);
             state=[swpProc+4];
 
-            if(state!=RUNNING && state!=TERMINATED && state!=ALLOCATED && [swpProc+6]!=1 && [swpProc]>hiTick) then
+            if(state!=RUNNING && state!=TERMINATED && state!=ALLOCATED && [swpProc+6]!=1 && [swpProc]>hiTick && loop!=IDLE2_PROCESS) then
                 hiTick=[swpProc];
                 swpPID=loop;
             endif;

@@ -321,7 +321,7 @@ if(functionNum==5) then
         endif;
 
         //If loop is not pid of current process  and the process is not terminated
-        if(loop!=pid && [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]!=TERMINATED) then
+        if(loop!=pid && [PROCESS_TABLE+(loop*PT_ENTRY_SIZE)+4]!=TERMINATED && loop!=IDLE2_PROCESS) then
            
             //Call exit_process() function from the Process Manager Module.
             multipush(R1,R2,R3);
