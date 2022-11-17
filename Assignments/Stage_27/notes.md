@@ -36,7 +36,9 @@ A. There is demand paging, so if the code page is required , page fault is gener
 
 8. Made  a mistake in initializing semaphore table, considered only three entries instead of four. Actually mad mistake in everywhere I used semaphore table ig. (Errors found in resource manager module,Boot module, int14(semlock and sem unlock)). In fork system call it was correct before.
 
-9. Modified decremented memory free list of library code during release and increment druing exec(need to compile)
+9. Modified decremented memory free list of library code during release and increment druing exec(need to compile).
+
+10. Corrected errors in scheduler, timer and change assignment 4 program to wait till numbers.dat is completely written
 
 ## Things to Note
 1. watchpoints are not triggered by load statements. Checking the page table with watchpoints s an option
