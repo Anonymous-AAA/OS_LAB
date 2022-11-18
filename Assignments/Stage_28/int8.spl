@@ -1,19 +1,28 @@
 // Fork System Call (INT 8) (System Call Number 8)
 
+alias processTableEntry R2;
+processTableEntry=PROCESS_TABLE+([SYSTEM_STATUS_TABLE+5*CORE+1]*PT_ENTRY_SIZE);
 
+//Save the value of SP in the user SP field of Process Table entry of the process.
+[processTableEntry + 13]=SP;
+
+//Set the value of SP to beginning of the kernel stack.
+SP=([processTableEntry + 11]*512)-1;
+
+multipush(R2);
 R1=ACQUIRE_KERN_LOCK;
-call ACCESS_CONTROL;  
+call ACCESS_CONTROL;
+multipop(R2);  
 
 
 
 alias userSP R1; 
-userSP=SP;
+userSP=[processTableEntry + 13];
 
 
 
 
-alias processTableEntry R2;
-processTableEntry=PROCESS_TABLE+([SYSTEM_STATUS_TABLE+5*CORE+1]*PT_ENTRY_SIZE);
+
 
 
 alias returnAddr R3;
@@ -23,11 +32,9 @@ returnAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 //Set the MODE FLAG field in the process table to the system call number which is 8 for fork system call
 [processTableEntry + 9] = 8;
 
-//Save the value of SP in the user SP field of Process Table entry of the process.
-[processTableEntry + 13]=SP;
 
-//Set the value of SP to beginning of the kernel stack.
-SP=([processTableEntry + 11]*512)-1;
+
+
 
 
 //Find a free process table entry by invoking Get PCB entry (function 1) in process manager module(MOD 1)
@@ -51,12 +58,15 @@ if(pid==-1) then    //No free entry in Process table, so Return indicating failu
     //Set -1 as Return Value in the user stack. (Address Translation required)
     [returnAddr] = -1;
 
-    //Switch to user stack
-    SP=[processTableEntry + 13];
-
+    
+    multipush(R2);
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;
     call ACCESS_CONTROL;
+    multipop(R2);
+
+    //Switch to user stack
+    SP=[processTableEntry + 13];
 
 
     ireturn;
@@ -288,13 +298,16 @@ returnAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 [processTableEntry + 9] = 0;
 
 
-//Switch to user stack of parent process
-SP=[processTableEntry + 13];
 
 
+multipush(R2);
 R1=RELEASE_LOCK;
 R2=KERN_LOCK;
 call ACCESS_CONTROL;
+multipop(R2);
+
+//Switch to user stack of parent process
+SP=[processTableEntry + 13];
 
 
 

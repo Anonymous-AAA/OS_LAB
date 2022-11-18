@@ -1,27 +1,7 @@
 //INT 4 - Create, Delete
 
-R1=ACQUIRE_KERN_LOCK;
-call ACCESS_CONTROL; 
-
-
-
-alias sysCall R1;
-alias userSP R2;
-
-//Storing userSP
-userSP=SP;
-
-//Extracting  System Call number from user stack
-sysCall=[([PTBR + 2 * ((userSP - 5) / 512)] * 512) + ((userSP - 5) % 512)];
-
 alias processTableEntry R10;
 processTableEntry=PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) ;
-
-
-alias returnValueAddr R11;
-returnValueAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
-
-
 
 //Save the value of SP in the user SP field of Process Table entry of the process.
 [processTableEntry + 13]=SP;
@@ -30,11 +10,43 @@ returnValueAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)
 //Set the value of SP to beginning of the kernel stack.
 SP=([processTableEntry + 11]*512)-1;
 
+multipush(R10);
+R1=ACQUIRE_KERN_LOCK;
+call ACCESS_CONTROL; 
+multipop(R10);
+
+
+alias sysCall R1;
+alias userSP R2;
+
+
+
+
+
+
+
+//Storing userSP
+userSP=[processTableEntry + 13];
+
+
+//Extracting  System Call number from user stack
+sysCall=[([PTBR + 2 * ((userSP - 5) / 512)] * 512) + ((userSP - 5) % 512)];
+
+
+
+
+
+
+
 //Getting the fileName (Argument 1)
 alias fileName R3;
 fileName=[([PTBR + 2 * ((userSP - 4) / 512)] * 512) + ((userSP - 4) % 512)];
 
 
+
+
+alias returnValueAddr R11;
+returnValueAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 
 
 //Checking whether it is Create System Call
@@ -57,13 +69,15 @@ if(sysCall==1) then
             //Set 0 as Return Value in the user stack. (Address Translation required)
             [returnValueAddr] =0;
 
-            //Switch to user stack
-            SP=[processTableEntry + 13];
+            
 
 
             R1=RELEASE_LOCK;
             R2=KERN_LOCK;
             call ACCESS_CONTROL;
+
+            //Switch to user stack
+            SP=[processTableEntry + 13];
 
 
             ireturn;
@@ -95,12 +109,14 @@ if(sysCall==1) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] = -1;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        
 
         R1=RELEASE_LOCK;
         R2=KERN_LOCK;
         call ACCESS_CONTROL;
+
+        //Switch to user stack
+        SP=[processTableEntry + 13];
 
         ireturn;
 
@@ -148,8 +164,7 @@ if(sysCall==1) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry + 9] = 0;
 
-    //Switch to user stack
-    SP=[processTableEntry + 13];
+    
 
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnValueAddr] = 0; 
@@ -157,6 +172,9 @@ if(sysCall==1) then
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;
     call ACCESS_CONTROL;
+
+    //Switch to user stack
+    SP=[processTableEntry + 13];
 
     ireturn;
 
@@ -190,12 +208,14 @@ if(sysCall==4) then
         //Set 0 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] =0;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+       
 
         R1=RELEASE_LOCK;
         R2=KERN_LOCK;
         call ACCESS_CONTROL;
+
+        //Switch to user stack
+        SP=[processTableEntry + 13];
 
         ireturn;
 
@@ -211,12 +231,14 @@ if(sysCall==4) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] = -1;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        
 
         R1=RELEASE_LOCK;
         R2=KERN_LOCK;
         call ACCESS_CONTROL;
+
+        //Switch to user stack
+        SP=[processTableEntry + 13];
 
         ireturn;
     endif;
@@ -237,12 +259,14 @@ if(sysCall==4) then
             //Set -1 as Return Value in the user stack. (Address Translation required)
             [returnValueAddr] = -1;
 
-            //Switch to user stack
-            SP=[processTableEntry + 13];
+            
 
             R1=RELEASE_LOCK;
             R2=KERN_LOCK;
             call ACCESS_CONTROL;
+
+            //Switch to user stack
+            SP=[processTableEntry + 13];
 
             ireturn;
         endif;
@@ -277,12 +301,14 @@ if(sysCall==4) then
         //Set -2 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] = -2;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+       
 
         R1=RELEASE_LOCK;
         R2=KERN_LOCK;
         call ACCESS_CONTROL;
+
+        //Switch to user stack
+        SP=[processTableEntry + 13];
 
         ireturn;
 
@@ -343,8 +369,7 @@ if(sysCall==4) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry + 9] = 0;
 
-    //Switch to user stack
-    SP=[processTableEntry + 13];
+    
 
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnValueAddr] = 0; 
@@ -352,6 +377,9 @@ if(sysCall==4) then
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;
     call ACCESS_CONTROL;
+
+    //Switch to user stack
+    SP=[processTableEntry + 13];
 
     ireturn;
 

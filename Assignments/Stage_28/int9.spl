@@ -1,5 +1,12 @@
 //Exec System Call - INT 9  (System Call Number 9)
 
+//Save the value of SP in the user SP field of Process Table entry of the process.
+[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 13]=SP;
+
+//Set the value of SP to beginning of the kernel stack.
+SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 11]*512)-1;
+
+
 R1=ACQUIRE_KERN_LOCK;
 call ACCESS_CONTROL;
 
@@ -7,13 +14,11 @@ call ACCESS_CONTROL;
 
 //Save the value of register SP as userSP
 alias userSP R1;
-userSP=SP;
+userSP=[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 13];
 
-//Save the value of SP in the user SP field of Process Table entry of the process.
-[PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 13]=userSP;
 
-//Set the value of SP to beginning of the kernel stack.
-SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 11]*512)-1;
+
+
 
 //Set the MODE FLAG field in the process table to the system call number which is 9 for exec system call
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 9] = 9;
@@ -49,11 +54,14 @@ if(inodeIndex>MAX_FILE_NUM || [INODE_TABLE+(16*inodeIndex)]!=EXEC) then
 	physicalAddrRetVal = ([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 	[physicalAddrRetVal] = -1;
 
-    SP=userSP;
-
+    
+    multipush(R1);
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;
     call ACCESS_CONTROL;
+    multipop(R1);
+
+    SP=userSP;
 
 
 
@@ -210,8 +218,7 @@ endwhile;
 //Store the entry point IP value on top of the user stack.
 [[PTBR+16]*512]=[[PTBR+8]*512+1];
 
-//Change SP to user stack
-SP=8*512;
+
 
 //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 9] = 0;
@@ -221,7 +228,8 @@ R1=RELEASE_LOCK;
 R2=KERN_LOCK;
 call ACCESS_CONTROL;
 
-
+//Change SP to user stack
+SP=8*512;
 
 //Return to user mode
 ireturn;

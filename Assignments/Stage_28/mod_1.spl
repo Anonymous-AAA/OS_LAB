@@ -144,8 +144,8 @@ if(functionNum==4) then
     [processPTBR+1] = "0000";
     [processPTBR+2] = -1;
     [processPTBR+3] = "0000";
-    [MEMORY_FREE_LIST+63]=[MEMORY_FREE_LIST+63]-1;
-    [MEMORY_FREE_LIST+64]=[MEMORY_FREE_LIST+64]-1;
+    // [MEMORY_FREE_LIST+63]=[MEMORY_FREE_LIST+63]-1; (Not very necessary)
+    // [MEMORY_FREE_LIST+64]=[MEMORY_FREE_LIST+64]-1;
 
     //For each valid entry in the page table, release the page by invoking the Release Page function and invalidate the entry.
     alias loop R4;

@@ -1,20 +1,5 @@
 //Logout System Call (Sys Call number 28)
 
-// set LOGOUT_STATUS=1 in SYSTEM_STATUS_TABLE
-[SYSTEM_STATUS_TABLE+7]=1;
-//wait until secondary core schedules IDLE2 before proceeding
-call SCHEDULER;
-
-
-
-
-
-
-R1=ACQUIRE_KERN_LOCK;
-call ACCESS_CONTROL;
-
-
-
 //Save the value of register SP as userSP
 alias userSP R1;
 userSP=SP;
@@ -36,6 +21,24 @@ processTableEntry=PROCESS_TABLE + (pid * PT_ENTRY_SIZE);
 //Set the value of SP to beginning of the kernel stack.
 SP=([processTableEntry + 11]*512)-1;
 
+
+// set LOGOUT_STATUS=1 in SYSTEM_STATUS_TABLE
+[SYSTEM_STATUS_TABLE+7]=1;
+//wait until secondary core schedules IDLE2 before proceeding
+multipush(R1,R2,R3);
+call SCHEDULER;
+multipop(R1,R2,R3);
+
+
+
+
+multipush(R1,R2,R3);
+R1=ACQUIRE_KERN_LOCK;
+call ACCESS_CONTROL;
+multipop(R1,R2,R3);
+
+
+
 alias returnAddr R4;
 returnAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 
@@ -49,12 +52,16 @@ if(pid!=2) then
     //Set -2 as Return Value in the user stack. (Address Translation required)
     [returnAddr] = -1;
 
-    //Switch to user stack
-    SP=[processTableEntry + 13];
-
+    
+    multipush(R3);
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;
     call ACCESS_CONTROL;
+    multipop(R3);
+
+    
+    //Switch to user stack
+    SP=[processTableEntry + 13];
 
 
     ireturn;

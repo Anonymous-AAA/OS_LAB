@@ -1,8 +1,6 @@
 //Exception Handler
 
-//Not very sure of this
-R1=ACQUIRE_KERN_LOCK;
-call ACCESS_CONTROL;  
+
 
 
 
@@ -19,7 +17,9 @@ SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE+5*CORE + 1] * 16 + 11]*512)-1;
 //Save the user context to the kernel stack
 backup;
 
-
+//KERN_LOCK After changing to Kernel Stack
+R1=ACQUIRE_KERN_LOCK;
+call ACCESS_CONTROL;  
 
 
 
@@ -142,6 +142,11 @@ endif;
 //Pop EIP from the stack
 multipop(EIP);
 
+//Release the lock before changing back to user stack
+R1=RELEASE_LOCK;
+R2=KERN_LOCK;
+call ACCESS_CONTROL;
+
 //Restore the register context.
 restore;
 
@@ -156,9 +161,7 @@ SP=SP+1;
 [[PTBR+2*(SP/512)]*512+(SP%512)]=EIP;
 
 
-R1=RELEASE_LOCK;
-R2=KERN_LOCK;
-call ACCESS_CONTROL;
+
 
 
 

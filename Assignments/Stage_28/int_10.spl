@@ -1,8 +1,7 @@
 //Exit System Call - (INT 10)
 
 
-R1=ACQUIRE_KERN_LOCK;
-call ACCESS_CONTROL;
+
 
 //Set the MODE FLAG field in the process table to the system call number which is 10 for exit system call
 [PROCESS_TABLE + [SYSTEM_STATUS_TABLE +5*CORE+ 1] * 16 + 9] = 10;
@@ -16,6 +15,10 @@ call ACCESS_CONTROL;
 
 //Set the value of SP to beginning of the kernel stack.
 SP=([PROCESS_TABLE + [SYSTEM_STATUS_TABLE +5*CORE+ 1] * 16 + 11]*512)-1;
+
+
+R1=ACQUIRE_KERN_LOCK;
+call ACCESS_CONTROL;
 
 
 //Invoke the exit_process function from the Process Manager module.

@@ -1,11 +1,13 @@
 load --init /home/anonymous/OS_lab/Assignments/Stage_28/login.xsm
-load --os   /home/anonymous/OS_lab/Assignments/Stage_28/os_startup.xsm
+load --os=primary   /home/anonymous/OS_lab/Assignments/Stage_28/os_startup.xsm
+load --os=secondary  /home/anonymous/OS_lab/Assignments/Stage_28/os_startup2.xsm
+load --module 8   /home/anonymous/OS_lab/Assignments/Stage_28/mod_8.xsm
 load --module 7  /home/anonymous/OS_lab/Assignments/Stage_28/boot_module.xsm
 load --int=10  /home/anonymous/OS_lab/Assignments/Stage_28/int_10.xsm
 load --module 5 /home/anonymous/OS_lab/Assignments/Stage_28/mod_5.xsm
 load --int=timer  /home/anonymous/OS_lab/Assignments/Stage_28/timer.xsm
 load --idle /home/anonymous/OS_lab/Assignments/Stage_28/idle.xsm
-load --library /home/anonymous/OS_lab/myexpos/expl/library.lib
+load --library /home/anonymous/OS_lab/mynexpos/expl/library.lib
 load --module 0 /home/anonymous/OS_lab/Assignments/Stage_28/mod_0.xsm
 load --module 4 /home/anonymous/OS_lab/Assignments/Stage_28/mod_4.xsm
 load --int=7 /home/anonymous/OS_lab/Assignments/Stage_28/int7.xsm
@@ -53,8 +55,6 @@ rm as4s27.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/as4s27.xsm
 rm pgm2.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/pgm2.xsm
-rm seekt.xsm
-load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/seekt.xsm
 rm merge.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/merge.xsm
 rm m_store.xsm
