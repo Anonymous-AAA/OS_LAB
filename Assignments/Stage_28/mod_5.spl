@@ -139,11 +139,11 @@ PTLR = [new_process_table + 15];
 if([new_process_table + 4] == CREATED) then   //If the process is in created state it has no user context to Restore ,so there is no need to Restore.
 	BP=[[new_process_table+11]*PAGE_SIZE];  	//Store the value in the first word of the kernel stack to the BP register. (only change in stage 20)
 	[new_process_table + 4] = RUNNING;        //Setting State
-	SP = [new_process_table + 13];            //Set SP to the value in the UPTR field of the process table entry.
 	[new_process_table + 9]=0;                //Set Mode flag field to 0
 	R1=RELEASE_LOCK;
 	R2=SCHED_LOCK;
 	call ACCESS_CONTROL;
+	SP = [new_process_table + 13];            //Set SP to the value in the UPTR field of the process table entry.
 	ireturn;                                  //Switch to user mode
 endif;
 

@@ -70,17 +70,17 @@ if(sysCall==1) then
             [returnValueAddr] =0;
 
             
+            goto IReturn;
+
+            // R1=RELEASE_LOCK;
+            // R2=KERN_LOCK;
+            // call ACCESS_CONTROL;
+
+            // //Switch to user stack
+            // SP=[processTableEntry + 13];
 
 
-            R1=RELEASE_LOCK;
-            R2=KERN_LOCK;
-            call ACCESS_CONTROL;
-
-            //Switch to user stack
-            SP=[processTableEntry + 13];
-
-
-            ireturn;
+            // ireturn;
 
             
         endif;
@@ -109,16 +109,16 @@ if(sysCall==1) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] = -1;
 
-        
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -169,14 +169,15 @@ if(sysCall==1) then
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnValueAddr] = 0; 
 
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
+    goto IReturn;
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
 
-    //Switch to user stack
-    SP=[processTableEntry + 13];
+    // //Switch to user stack
+    // SP=[processTableEntry + 13];
 
-    ireturn;
+    // ireturn;
 
 
 
@@ -209,15 +210,15 @@ if(sysCall==4) then
         [returnValueAddr] =0;
 
        
+        goto IReturn;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
-
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -232,15 +233,15 @@ if(sysCall==4) then
         [returnValueAddr] = -1;
 
         
+        goto IReturn;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
-
-        ireturn;
+        // ireturn;
     endif;
 
 
@@ -260,26 +261,26 @@ if(sysCall==4) then
             [returnValueAddr] = -1;
 
             
+            goto IReturn;
+            // R1=RELEASE_LOCK;
+            // R2=KERN_LOCK;
+            // call ACCESS_CONTROL;
 
-            R1=RELEASE_LOCK;
-            R2=KERN_LOCK;
-            call ACCESS_CONTROL;
+            // //Switch to user stack
+            // SP=[processTableEntry + 13];
 
-            //Switch to user stack
-            SP=[processTableEntry + 13];
-
-            ireturn;
+            // ireturn;
         endif;
     endif;
 
 
     //Acquire a lock on the file by calling the acquire_inode() function in the Resource Manager module.
-    multipush(R1,R2,R3,R4,R5,R10,R11);
+    multipush(R2,R4,R10);
     R1=4;   //Acquire Inode function number
     R2=index;       //Inode index
     R3=[SYSTEM_STATUS_TABLE+5*CORE+1];  //Current PID
     call MOD_0;  //Resource Manager module
-    multipop(R1,R2,R3,R4,R5,R10,R11);
+    multipop(R2,R4,R10);
 
     //Recalulating Return address
     returnValueAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
@@ -288,12 +289,12 @@ if(sysCall==4) then
     if([FILE_STATUS_TABLE+(4*index)+1]!=-1) then
 
         //Release lock on the file by calling the release_inode() function in the Resource Manager module.
-        multipush(R1,R2,R3,R4,R5,R10,R11);
+        multipush(R4,R10,R11);
         R1=5;   //Release Inode function number
         R2=index;       //Inode index
         R3=[SYSTEM_STATUS_TABLE+5*CORE+1];  //Current PID
         call MOD_0;  //Resource Manager module
-        multipop(R1,R2,R3,R4,R5,R10,R11);
+        multipop(R4,R10,R11);
 
         //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [processTableEntry + 9] = 0;
@@ -302,15 +303,15 @@ if(sysCall==4) then
         [returnValueAddr] = -2;
 
        
+        goto IReturn;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
-
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -330,12 +331,12 @@ if(sysCall==4) then
         endif;
 
         //Call the release_block() function in the Memory Manager module to free the disk block.
-        multipush(R1,R2,R3,R4,R5,R6,R7,R10,R11);
+        multipush(R4,R6,R7,R10,R11);
         R1=4;   //Release Block function number
         R2=block;   //Block number
         R3=[SYSTEM_STATUS_TABLE+5*CORE+1]; //PID
         call MOD_2;     //Memory Manager module
-        multipop(R1,R2,R3,R4,R5,R6,R7,R10,R11);
+        multipop(R4,R6,R7,R10,R11);
 
         loop=loop+1;
     endwhile;
@@ -357,12 +358,12 @@ if(sysCall==4) then
 
 
     //Release the lock on the file by calling the release_inode() function in the Resource Manager module.
-    multipush(R1,R2,R3,R4,R5,R6,R7,R10,R11);
+    multipush(R4,R6,R7,R10,R11);
     R1=5;   //Release Inode function number
     R2=index;       //Inode index
     R3=[SYSTEM_STATUS_TABLE+5*CORE+1];  //Current PID
     call MOD_0;  //Resource Manager module
-    multipop(R1,R2,R3,R4,R5,R6,R7,R10,R11);
+    multipop(R4,R6,R7,R10,R11);
 
 
 
@@ -373,6 +374,8 @@ if(sysCall==4) then
 
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnValueAddr] = 0; 
+
+IReturn:
 
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;

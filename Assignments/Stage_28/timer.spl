@@ -24,7 +24,7 @@ alias pid R2;
 pid=[SYSTEM_STATUS_TABLE+5*CORE+1];
 
 //If swapping is initiated
-if(pagingStatus!=0) then
+if(pagingStatus!=0 && CORE==PRIMARY_CORE) then
 
     //Call Swap In/Out, if necessary
     //Only Core 1 can execute SWAPPER_DAEMON

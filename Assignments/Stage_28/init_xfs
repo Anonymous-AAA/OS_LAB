@@ -65,5 +65,7 @@ rm m_merge.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/m_merge.xsm
 rm as4_mod.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/as4_mod.xsm
+rm sample.dat
+load --data  /home/anonymous/OS_lab/myexpos/sample.dat
 dump --inodeusertable
 dump --rootfile

@@ -52,15 +52,16 @@ if(sysCall==22) then
         //Set -2 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -2;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
         
-        SP=userSP;
+        // SP=userSP;
 
-        ireturn;
+        // ireturn;
     endif;
 
 
@@ -86,16 +87,17 @@ if(sysCall==22) then
             //Set -1 as Return Value in the user stack. (Address Translation required)
             [returnAddr] = -1;
 
-            multipush(R2);
-            R1=RELEASE_LOCK;
-            R2=KERN_LOCK;
-            call ACCESS_CONTROL;
-            multipop(R2);
+            goto IReturn;
+            // multipush(R2);
+            // R1=RELEASE_LOCK;
+            // R2=KERN_LOCK;
+            // call ACCESS_CONTROL;
+            // multipop(R2);
 
-            SP=userSP;
+            // SP=userSP;
             
 
-            ireturn;
+            // ireturn;
         endif;
     
         userID=userID+1;
@@ -115,15 +117,16 @@ if(sysCall==22) then
         //Set -3 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -3;
         
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
         
-        SP=userSP;
+        // SP=userSP;
 
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -144,16 +147,17 @@ if(sysCall==22) then
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnAddr] = 0;
 
-    multipush(R2);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R2);
+    goto IReturn;
+    // multipush(R2);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R2);
 
-    SP=userSP;
+    // SP=userSP;
     
 
-    ireturn;
+    // ireturn;
 
    
 endif;
@@ -175,15 +179,16 @@ if(sysCall==23) then
         //Set -2 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -2;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
         
-        SP=userSP;
+        // SP=userSP;
 
-        ireturn;
+        // ireturn;
     endif;
 
     alias username R6;
@@ -200,16 +205,17 @@ if(sysCall==23) then
         //Set -2 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -2;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        SP=userSP;
+        // SP=userSP;
         
 
-        ireturn;
+        // ireturn;
 
 
     endif;
@@ -231,17 +237,18 @@ if(sysCall==23) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -1;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        SP=userSP;
+        // SP=userSP;
 
         
 
-        ireturn;
+        // ireturn;
 
 
     endif;
@@ -260,15 +267,16 @@ if(sysCall==23) then
             //Set -3 as Return Value in the user stack. (Address Translation required)
             [returnAddr] = -3;
 
-            multipush(R2);
-            R1=RELEASE_LOCK;
-            R2=KERN_LOCK;
-            call ACCESS_CONTROL;
-            multipop(R2);
+            goto IReturn;
+            // multipush(R2);
+            // R1=RELEASE_LOCK;
+            // R2=KERN_LOCK;
+            // call ACCESS_CONTROL;
+            // multipop(R2);
 
-            SP=userSP;
+            // SP=userSP;
 
-            ireturn;
+            // ireturn;
         endif;
         loop=loop+1;
     endwhile;
@@ -288,16 +296,18 @@ if(sysCall==23) then
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnAddr] = 0;
 
-    multipush(R2);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R2);
+    goto IReturn;
 
-    SP=userSP;
+    // multipush(R2);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R2);
+
+    // SP=userSP;
     
 
-    ireturn;
+    // ireturn;
 
 endif;
 
@@ -317,15 +327,17 @@ if(sysCall==24) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -1;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
 
-        SP=userSP;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        ireturn;
+        // SP=userSP;
+
+        // ireturn;
     
     endif;
 
@@ -360,15 +372,16 @@ if(sysCall==24) then
         //Set -2 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -2;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        SP=userSP;
+        // SP=userSP;
 
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -383,15 +396,16 @@ if(sysCall==24) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -1;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        SP=userSP;
+        // SP=userSP;
 
-        ireturn;
+        // ireturn;
     endif;
 
 
@@ -407,15 +421,17 @@ if(sysCall==24) then
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnAddr] = 0;
 
-    multipush(R2);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R2);
+    goto IReturn;
 
-    SP=userSP;
+    // multipush(R2);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R2);
 
-    ireturn;    
+    // SP=userSP;
+
+    // ireturn;    
 
 endif;
 
@@ -449,16 +465,18 @@ if(sysCall==26) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry + 9] = 0;
 
-    multipush(R2);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R2);
+    goto IReturn;
 
-    SP=userSP;
+    // multipush(R2);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R2);
+
+    // SP=userSP;
 
 
-    ireturn;
+    // ireturn;
 
 endif;
 
@@ -480,15 +498,17 @@ if(sysCall==25) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -1;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
 
-        SP=userSP;
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        ireturn;
+        // SP=userSP;
+
+        // ireturn;
     endif;
 
 
@@ -510,15 +530,17 @@ if(sysCall==25) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnAddr] = -1;
 
-        multipush(R2);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R2);
+        goto IReturn;
+        
+        // multipush(R2);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R2);
 
-        SP=userSP;
+        // SP=userSP;
 
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -530,11 +552,13 @@ if(sysCall==25) then
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [returnAddr] = username;
 
+IReturn:
+
     multipush(R2);
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;
     call ACCESS_CONTROL;
-    multipush(R2);
+    multipop(R2);
 
     SP=userSP;
 

@@ -82,17 +82,17 @@ if(sysCall==2) then
         //Set -3 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] =-3;
 
-        
+        goto IReturn;        
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
 
-        ireturn;
+        // ireturn;
     
     endif;
 
@@ -117,16 +117,16 @@ if(sysCall==2) then
         //Set R0 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] =R0;
 
-        
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        ireturn;
+        // ireturn;
     endif;
 
 
@@ -143,14 +143,16 @@ if(sysCall==2) then
     //Return the index of the Per-Process Resource Table entry.
     [returnValueAddr] = index; 
 
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
+    goto IReturn;
 
-    //Switch to user stack
-    SP=[processTableEntry + 13];
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
 
-    ireturn;
+    // //Switch to user stack
+    // SP=[processTableEntry + 13];
+
+    // ireturn;
 
 endif;
 
@@ -179,16 +181,16 @@ if(sysCall==3) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] =-1;
 
-        
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -207,16 +209,16 @@ if(sysCall==3) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] =-1;
 
-        
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        ireturn;
+        // ireturn;
 
 
     endif;
@@ -247,14 +249,16 @@ if(sysCall==3) then
     //Return 0
     [returnValueAddr] = 0; 
 
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
+    goto IReturn;
 
-     //Switch to user stack
-    SP=[processTableEntry + 13];
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
 
-    ireturn;
+    //  //Switch to user stack
+    // SP=[processTableEntry + 13];
+
+    // ireturn;
 
 
 endif;
@@ -286,16 +290,16 @@ if(sysCall==6) then
         //Set -1 as Return Value in the user stack. (Address Translation required)
         [returnValueAddr] =-1;
 
-        
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[processTableEntry + 13];
+        // //Switch to user stack
+        // SP=[processTableEntry + 13];
 
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -316,16 +320,16 @@ if(sysCall==6) then
         
 
         //passing control back to user program
+        goto IReturn;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-
-        // set back the value of SP to point to top of user stack
-        SP = [processTableEntry + 13];
+        // // set back the value of SP to point to top of user stack
+        // SP = [processTableEntry + 13];
 
 
-        ireturn;
+        // ireturn;
 
 
 
@@ -362,16 +366,16 @@ if(sysCall==6) then
         
 
         //passing control back to user program
+        goto IReturn;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-
-        // set back the value of SP to point to top of user stack
-        SP = [processTableEntry + 13];
+        // // set back the value of SP to point to top of user stack
+        // SP = [processTableEntry + 13];
 
 
-        ireturn;
+        // ireturn;
 
 
     endif;
@@ -408,17 +412,17 @@ if(sysCall==6) then
         
 
         //passing control back to user program
+        goto IReturn;
+
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+
+        // // set back the value of SP to point to top of user stack
+        // SP = [processTableEntry + 13];
 
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-
-        // set back the value of SP to point to top of user stack
-        SP = [processTableEntry + 13];
-
-
-        ireturn;
+        // ireturn;
 
     endif;
 
@@ -458,6 +462,7 @@ if(sysCall==6) then
 
     //passing control back to user program
 
+IReturn:
 
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;

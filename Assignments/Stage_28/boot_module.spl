@@ -320,7 +320,7 @@ while(loop<85) do
     loop=loop+1;
 endwhile;
 
-while(loop<MAX_MEM_PAGE) do
+while(loop<128) do
     [MEMORY_FREE_LIST+loop]=0;
     loop=loop+1;
 endwhile;

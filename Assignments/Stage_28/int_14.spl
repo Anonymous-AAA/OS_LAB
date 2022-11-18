@@ -57,15 +57,16 @@ if(sysCall==19) then
 
         
 
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
+        // //Switch to user stack
+        // SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
 
-        ireturn;
+        // ireturn;
     endif;
 
     alias semTableIndex R6;
@@ -118,15 +119,17 @@ if(sysCall==19) then
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = 0; 
 
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
+    goto IReturn;
 
-    //Switch to user stack
-    SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+
+    // //Switch to user stack
+    // SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
 
 
-    ireturn;
+    // ireturn;
 
 endif;
 
@@ -162,15 +165,16 @@ if(sysCall==20) then
         [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = -1;
 
         
+        goto IReturn;
 
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
 
-        //Switch to user stack
-        SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
+        // //Switch to user stack
+        // SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
 
-        ireturn;
+        // ireturn;
     endif;
 
 
@@ -190,16 +194,17 @@ if(sysCall==20) then
             //Set -2 as Return Value in the user stack. (Address Translation required)
             [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = -2;
 
+            goto IReturn;
             
-            R1=RELEASE_LOCK;
-            R2=KERN_LOCK;
-            call ACCESS_CONTROL;
+            // R1=RELEASE_LOCK;
+            // R2=KERN_LOCK;
+            // call ACCESS_CONTROL;
 
-            //Switch to user stack
-            SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
+            // //Switch to user stack
+            // SP=[PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 13];
 
 
-            ireturn;
+            // ireturn;
         endif;
 
 
@@ -231,6 +236,9 @@ if(sysCall==20) then
 
     //Set 0 as Return Value in the user stack. (Address Translation required)
     [([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512)] = 0; 
+
+
+IReturn:
 
     R1=RELEASE_LOCK;
     R2=KERN_LOCK;

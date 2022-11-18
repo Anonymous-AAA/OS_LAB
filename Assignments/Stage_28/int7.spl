@@ -65,17 +65,19 @@ if(fileDescriptor==-2) then
     physicalAddrRetVal = ([PTBR + 2 * (userSP - 1)/ 512] * 512) + ((userSP - 1) % 512);
     [physicalAddrRetVal] = 0;
 
-    multipush(R1);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R1);
-    // set back the value of SP to point to top of user stack
-    SP = userSP;
+    goto IReturn;
+
+    // multipush(R1);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R1);
+    // // set back the value of SP to point to top of user stack
+    // SP = userSP;
 
 
 
-    ireturn;
+    // ireturn;
 
 endif;
 
@@ -94,17 +96,19 @@ if(fileDescriptor<0 || fileDescriptor>7) then
     
 
     //passing control back to user program
-    multipush(R1);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R1);
+    goto IReturn;
 
-    // set back the value of SP to point to top of user stack
-    SP = userSP;
+    // multipush(R1);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R1);
+
+    // // set back the value of SP to point to top of user stack
+    // SP = userSP;
 
 
-    ireturn;
+    // ireturn;
 
 
 endif;
@@ -122,18 +126,19 @@ if([resourceTable+(fileDescriptor*2)]!=FILE) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry+ 9] = 0;
 
-    
-    multipush(R1);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R1);
+    goto IReturn;
 
-    // set back the value of SP to point to top of user stack
-    SP = userSP;
+    // multipush(R1);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R1);
 
-    //passing control back to user program
-    ireturn;
+    // // set back the value of SP to point to top of user stack
+    // SP = userSP;
+
+    // //passing control back to user program
+    // ireturn;
 
 
 
@@ -162,19 +167,20 @@ if(userID!=ROOT && userID!=[inodeEntry+3] && [inodeEntry+4]==EXCLUSIVE) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry+ 9] = 0;
 
+    goto IReturn;
 
-    multipush(R1);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R1);
+    // multipush(R1);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R1);
 
-    // set back the value of SP to point to top of user stack
-    SP = userSP;
+    // // set back the value of SP to point to top of user stack
+    // SP = userSP;
 
 
-    //passing control back to user program
-    ireturn;
+    // //passing control back to user program
+    // ireturn;
 
 endif;
 
@@ -199,21 +205,22 @@ if(R0==-1) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry+ 9] = 0;
 
-    
-    multipush(R1);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R1);
+    goto IReturn;
+
+    // multipush(R1);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R1);
 
 
-    // set back the value of SP to point to top of user stack
-    SP = userSP;
+    // // set back the value of SP to point to top of user stack
+    // SP = userSP;
 
 
 
-    //passing control back to user program
-    ireturn;
+    // //passing control back to user program
+    // ireturn;
 
 
 endif;
@@ -241,21 +248,22 @@ if(lseek==MAX_FILE_SIZE) then
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [processTableEntry+ 9] = 0;
 
-    
-    multipush(R1);
-    R1=RELEASE_LOCK;
-    R2=KERN_LOCK;
-    call ACCESS_CONTROL;
-    multipop(R1);
+    goto IReturn;
 
-    // set back the value of SP to point to top of user stack
-    SP = userSP;
+    // multipush(R1);
+    // R1=RELEASE_LOCK;
+    // R2=KERN_LOCK;
+    // call ACCESS_CONTROL;
+    // multipop(R1);
+
+    // // set back the value of SP to point to top of user stack
+    // SP = userSP;
 
 
 
 
-    //passing control back to user program
-    ireturn;
+    // //passing control back to user program
+    // ireturn;
 
 
 
@@ -288,19 +296,20 @@ if(lseek%512==0 && lseek==[inodeEntry+2]) then
         //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
         [processTableEntry+ 9] = 0;
 
-        
-        multipush(R1);
-        R1=RELEASE_LOCK;
-        R2=KERN_LOCK;
-        call ACCESS_CONTROL;
-        multipop(R1);
+        goto IReturn;
 
-        // set back the value of SP to point to top of user stack
-        SP = userSP;
+        // multipush(R1);
+        // R1=RELEASE_LOCK;
+        // R2=KERN_LOCK;
+        // call ACCESS_CONTROL;
+        // multipop(R1);
+
+        // // set back the value of SP to point to top of user stack
+        // SP = userSP;
 
 
-        //passing control back to user program
-        ireturn;
+        // //passing control back to user program
+        // ireturn;
     
     endif;
 
@@ -362,6 +371,12 @@ multipop(R1,R2,R3,R4,R5,R6,R7,R8,R9,R10,R11,R12,R13,R14,R15);
 //Recalculate physical address after blocking code
 physicalAddrRetVal = ([PTBR + 2 * (userSP - 1)/ 512] * 512) + ((userSP - 1) % 512);
 [physicalAddrRetVal]=0;
+
+
+
+
+
+IReturn:
 
 multipush(R1);
 R1=RELEASE_LOCK;
