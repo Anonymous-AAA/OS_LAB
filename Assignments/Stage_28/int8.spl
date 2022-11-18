@@ -172,8 +172,7 @@ childProcessTableEntry=PROCESS_TABLE+(pid*PT_ENTRY_SIZE);
 //PID of the parent is stored in the PPID field of the process table of the child.
 [childProcessTableEntry+2]=[processTableEntry+1];
 
-//State of Child Process is set to CREATED
-[childProcessTableEntry+4]=CREATED;
+
 
 //Store UserAreaPage obtained in the USER AREA PAGE NUMBER field of Child Process
 [childProcessTableEntry+11]=userAreaPage;
@@ -297,7 +296,8 @@ returnAddr=([PTBR + 2 * ((userSP - 1) / 512)] * 512) + ((userSP - 1) % 512);
 //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
 [processTableEntry + 9] = 0;
 
-
+//State of Child Process is set to CREATED
+[childProcessTableEntry+4]=CREATED;
 
 
 multipush(R2);
