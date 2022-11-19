@@ -63,7 +63,7 @@ begin
     s.num=s.num+1;
     temp=exposcall("SemUnLock", sem2);
 
-    while(s.num<12)do   //Loop to wait till all programs write into numbers.dat
+    while(s.num<11)do   //Loop to wait till all programs write into numbers.dat
         temp=1;
     endwhile;
 

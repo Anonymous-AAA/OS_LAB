@@ -69,5 +69,7 @@ rm sample.dat
 load --data  /home/anonymous/OS_lab/myexpos/sample.dat
 rm pid.xsm
 load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/pid.xsm
+rm  ass4.xsm
+load --exec  /home/anonymous/OS_lab/Assignments/Stage_28/ass4.xsm
 dump --inodeusertable
 dump --rootfile
