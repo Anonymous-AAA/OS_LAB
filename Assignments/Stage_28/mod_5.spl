@@ -31,6 +31,19 @@ if(CORE==PRIMARY_CORE) then
 
 	alias currentPID2 R4;
 	currentPID2=[SYSTEM_STATUS_TABLE+6];
+
+	//If LOGOUT_STATUS=1 and the secondary core is not running IDLE2, schedule IDLE
+	if([SYSTEM_STATUS_TABLE+7]==1 && currentPID2!=IDLE2_PROCESS) then
+		newPID=IDLE_PROCESS;
+		goto end;
+	endif;
+
+	//If LOGOUT_STATUS=1 and the secondary core is  running IDLE2, schedule SHELL_PROCESS
+	if([SYSTEM_STATUS_TABLE+7]==1 && currentPID2==IDLE2_PROCESS) then
+		newPID=SHELL_PROCESS;
+		goto end;
+	endif;
+
 	//If Paging is ongoing (PAGING_STATUS is not 0)
 	if([SYSTEM_STATUS_TABLE+5]!=0) then
 
@@ -69,10 +82,7 @@ if(CORE==PRIMARY_CORE) then
 
 	endif;
 
-	//If LOGOUT_STATUS=1 and the secondary core is not running IDLE2, schedule IDLE
-	if([SYSTEM_STATUS_TABLE+7]==1 && currentPID2!=IDLE2_PROCESS) then
-		newPID=IDLE_PROCESS;
-	endif;
+end:	
 
 	[SYSTEM_STATUS_TABLE + 1] = newPID;    //Set the PID field of the System Status Table as newPID
 
