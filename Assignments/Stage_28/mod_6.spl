@@ -157,8 +157,8 @@ if(functionNum==SWAP_IN) then
     while(loop<IDLE2_PROCESS) do
         swpProc=PROCESS_TABLE+(loop*PT_ENTRY_SIZE);
 
-        //Process is ready and swapped
-        if([swpProc+4]==READY && [swpProc+6]==1 && [swpProc]>hiTick) then
+        //Process is ready or created and swapped
+        if(([swpProc+4]==READY || [swpProc+4]==CREATED)  && [swpProc+6]==1 && [swpProc]>hiTick) then
             swpPID=loop;
             hiTick=[swpProc];
         endif;

@@ -1,16 +1,21 @@
 //Access Control Module (MOD_8)
 
 
-//Use unused space in Access Lock Table and one extra space
+//Use  space in Access Lock Table 
 
-define SCHED_TURN 29579;
-define KERN_TURN  29580;
 
-define SCHED_FLAG_PRIMARY 29581;
-define SCHED_FLAG_SECONDARY 29582;
 
-define KERN_FLAG_PRIMARY 29583;
-define KERN_FLAG_SECONDARY 29584;
+
+define SCHED_TURN 29576;
+define KERN_TURN  29577;
+
+define SCHED_FLAG_PRIMARY 29578;
+define SCHED_FLAG_SECONDARY 29579;
+
+define KERN_FLAG_PRIMARY 29580;
+define KERN_FLAG_SECONDARY 29581;
+
+
 
 alias functionNum R1;
 

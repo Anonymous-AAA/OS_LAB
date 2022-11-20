@@ -1,21 +1,27 @@
 //loadi(mem,disk)
 
 
-//Use unused space in Access Lock Table (As GLOCK is unused I am using that too)
+//Use  space in Access Lock Table (As GLOCK is unused I am using that too)
 
-// define SCHED_TURN 29579;
-// define KERN_TURN  29580;
 
-define SCHED_FLAG_PRIMARY 29581;
-define SCHED_FLAG_SECONDARY 29582;
 
-define KERN_FLAG_PRIMARY 29583;
-define KERN_FLAG_SECONDARY 29584;
+define SCHED_TURN 29576;
+define KERN_TURN  29577;
+
+define SCHED_FLAG_PRIMARY 29578;
+define SCHED_FLAG_SECONDARY 29579;
+
+define KERN_FLAG_PRIMARY 29580;
+define KERN_FLAG_SECONDARY 29581;
+
+
 
 [SCHED_FLAG_PRIMARY]=0;           //0 for false
 [SCHED_FLAG_SECONDARY]=0;
 [KERN_FLAG_PRIMARY]=0;
 [KERN_FLAG_SECONDARY]=0;
+[SCHED_TURN]=0;
+[KERN_TURN]=0;
 
 // breakpoint;
 
@@ -444,9 +450,9 @@ endwhile;
 //     loop=loop+1;
 // endwhile;
 
-//Kernlock and Sched Lock must br initialized to zero
-[KERN_LOCK]=0;
-[SCHED_LOCK]=0;
+// //Kernlock and Sched Lock must br initialized to zero
+// [KERN_LOCK]=0;
+// [SCHED_LOCK]=0;
 
 
 return;
