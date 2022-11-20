@@ -41,9 +41,9 @@ if(functionNum==1) then
     //Find a free page using memory free list
     alias free R0;
 
-    free=0;
+    free=85;
 
-    while(free<MAX_MEM_PAGE && [MEMORY_FREE_LIST+free]!=0) do
+    while(free<128 && [MEMORY_FREE_LIST+free]!=0) do
         free=free+1;
     endwhile;
 
