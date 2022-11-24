@@ -3,7 +3,7 @@
 int main(){
 
     decl
-        int temp,fileDesc;
+        int temp,fileDesc,uid;
         str username,fileUsr,data;
     enddecl
 
@@ -11,6 +11,13 @@ int main(){
 
         fileDesc=exposcall("Open","root");
         temp=exposcall("Read",-1,username);
+
+        uid=exposcall("Getuid",username);
+
+        if(uid==-1) then
+            temp=exposcall("Write",-2,"Invalid User");
+            temp=exposcall("Exit");
+        endif;
 
         while(1==1) do
 
