@@ -82,7 +82,7 @@ if(sysCall==13) then
     call ACCESS_CONTROL;  
 
 
-    multipop(R1,R2,R3) ;
+    multipop(R1,R2,R3);
 
     //Reset the MODE FLAG field in the process table to 0. Value 0 indicates that process is running in user mode.
     [PROCESS_TABLE + ([SYSTEM_STATUS_TABLE+5*CORE + 1] * PT_ENTRY_SIZE) + 9] = 0;
