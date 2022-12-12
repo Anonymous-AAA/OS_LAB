@@ -1,6 +1,6 @@
 # eXperimental Operating System
 
-My implementation of project eXpos (eXperimental Operating System) as part of my Operating Systems Laboratory course.
+My implementation of project eXpos (eXperimental Operating System) as part of the Operating Systems Laboratory course.
 
 Most of the stages contain a notes.md file which contain the important points, errors I made etc.
 
